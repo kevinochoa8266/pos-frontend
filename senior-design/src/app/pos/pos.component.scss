@@ -3,27 +3,54 @@ mat-grid-tile {
 }
 mat-grid-list {
     margin-left: 5%;
-    margin-right: 20%;
+    margin-right: 5%;
 }
 h1{
     font-family: 'Oswald', sans-serif;
     font-size:xxx-large;
-    margin-left: 5%;
-    margin-top: 2%;
+    
     
 }
-.mat-grid-tile-footer div{ margin: auto; }
-.mat-grid-tile-footer {
-    padding: 0;
-    font-weight: normal;
-    font-size: inherit;
+
+#tile-footer{
+    background: #19A5BA;
+    justify-content: space-between;
+    height:20%;
+    font-family: 'Oswald', sans-serif;
+    font-size:large;
+
 }
 
 .tile-content {
     display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
   }
-  
+
+mat-sidenav-container{
+    height: 90%;
+    background: #FFEEF6
+
+}
+
+mat-sidenav, mat-sidenav-content{
+    padding: 16px;
+}
+mat-sidenav{
+    background-color:black;
+    color: white;
+    width: 250px;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+.pos-top{
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 2%;
+    display: flex;
+    justify-content: space-between;
+}
+
+
  

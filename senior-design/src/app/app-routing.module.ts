@@ -7,7 +7,7 @@ import { PosComponent } from './pos/pos.component';
 const routes: Routes = [
   { path: '', component: PosComponent},
   { path: 'management', component: ManagementComponent},
-  { path: 'pos', component: PosComponent}
+  { path: 'shop/candy', component: PosComponent}
 
 ];
 

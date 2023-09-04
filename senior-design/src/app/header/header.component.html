@@ -1,10 +1,10 @@
 
-<mat-toolbar class="navbar">
+<mat-toolbar class="navbar" (scroll) = "onscroll()" [ngClass]="navbarfixed?'fixed':'nofixed'">
     <div>
-    <img src= "assets/img/circlelogo.png" width = 90px height="90px">
+    <img src= "assets/img/circlelogo.png" width = 75px height="75px">
     </div>
     <div >
-        <a mat-button routerLink = "pos" [style.color] = "'white'" id="buttons">Shop Candy</a>
+        <a mat-button routerLink = "shop/candy" [style.color] = "'white'" id="buttons">Shop Candy</a>
         <a mat-button routerLink = "management" [style.color] = "'white'" id="buttons">Management Portal</a>
     </div>
 </mat-toolbar>
