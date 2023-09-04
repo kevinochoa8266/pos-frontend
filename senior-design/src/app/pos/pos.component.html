@@ -1,0 +1,30 @@
+<div>
+    <h1>Welcome!</h1>
+</div>
+<br>
+<mat-grid-list cols="3" rowHeight="3:2" gutterSize="60px">
+    <mat-grid-tile *ngFor="let item of items">
+        <!-- Content for each grid tile -->
+        <div class="tile-content">
+            <img [src]="item.pic" width = 50% alt="Image">
+          </div>
+          <mat-grid-tile-footer [style.background]="'#19A5BA'" [style.justify-content] = "'space-between'" [style.height] = "'30%'">
+            <div>
+                <p>{{ item.text }}</p>
+                <p>{{ item.text }}</p>
+            </div>
+            <div><button mat-button color="primary">Button</button></div>
+          </mat-grid-tile-footer>
+
+        <!-- <div><img [src]="item.pic" width = 60px> </div>
+        <div>{{ item.text }}</div> -->
+      </mat-grid-tile>
+</mat-grid-list>
+
+<!-- 
+    1) get list with name, price, image, etc
+    2) figure out how to resize image
+    3) add sidebar ocmponent for checkout
+    4) add cart button
+    5) add search bar at top
+ -->

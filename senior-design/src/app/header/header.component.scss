@@ -1,0 +1,22 @@
+.navbar{
+    justify-content: space-between;
+    font-family: 'DM Sans', sans-serif;
+    height: 12%;
+    text-align: center;
+    align-items: center;
+    padding: -10px;
+    background: black;
+}
+
+span{
+    padding-right:1rem;
+}
+
+mat-button {
+    
+    padding: 12px 24px; /* Adjust padding to control the button's height and width */
+}
+#buttons{
+    color: white;
+    font-size: 90%; /* Adjust the font size to your desired size */
+}
