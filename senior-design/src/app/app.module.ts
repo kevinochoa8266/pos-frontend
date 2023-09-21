@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import {MatSidenavModule} from '@angular/material/sidenav';
@@ -15,12 +14,13 @@ import { ManagementComponent } from './management/management.component';
 import { PosComponent } from './pos/pos.component';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatCardModule} from '@angular/material/card';
+import {MatDividerModule} from '@angular/material/divider';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
     HeaderComponent,
     ManagementComponent,
     PosComponent,
@@ -36,7 +36,9 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     MatIconModule, 
     MatButtonModule, 
     MatGridListModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatCardModule, 
+    MatDividerModule
   ],
   providers: [],
   bootstrap: [AppComponent],

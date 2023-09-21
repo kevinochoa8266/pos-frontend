@@ -1,28 +1,79 @@
 <mat-sidenav-container>
+  <!-- CHECKOUT SIDENAV -->
   <mat-sidenav #sidenav mode = "side" [(opened)]="opened" position = "end">
-    Cart...
+    <mat-grid-list cols="1" rowHeight="2:1" gutterSize="20px">
+      <mat-grid-tile *ngFor="let item of checkoutItems" id = "checkoutTile">
+            <div class = "parent">
+              <div class="main-content">
+                {{item.name}} 
+              </div>
+              <div class = "secondDiv">
+                {{item.price  | currency}}
+              </div>
+            </div>
+
+              <mat-grid-tile-footer id = "checkout-tile-footer">
+                <button mat-button (click)="minusCount(item)" id = "countButton">
+                  <mat-icon>remove_circle_outline</mat-icon>
+                </button>
+                <!-- <input type = "text" [value] = "item.count"> -->
+                <p [style.color] = "'black'">{{item.count}}</p>
+                <button mat-button (click)="plusCount(item)" id = "countButton">
+                  <mat-icon>add_circle_outline</mat-icon>
+                </button>
+          </mat-grid-tile-footer>
+        </mat-grid-tile>
+  </mat-grid-list>
+
+
+  <mat-card> 
+    <mat-card-content>
+      <div class="total-line">
+        <span>Subtotal</span>
+        <span>{{subtotal | currency}}</span>
+      </div>
+      <div class="total-line">
+        <span>Tax</span>
+        <span>{{tax | currency}}</span>
+      </div>
+  
+      <mat-divider></mat-divider>
+      <br>
+      <div class="total-line">
+        <span>Total</span>
+        <span>{{total | currency}}</span>
+      </div>
+    </mat-card-content>
     <br>
-    checkout...
+    <br>
+    <button class="button-17" role="button">
+      Proceed to payment
+    </button>
+  </mat-card>
+
+  
+
   </mat-sidenav>
 
+  <!-- MAIN POS GRID -->
   <mat-sidenav-content>
     <div class = "pos-top">
       <h1>Welcome!</h1>
       <button (click) = "sidenav.toggle()" mat-fab ><mat-icon>shopping_cart</mat-icon></button>
     </div>
   <br>
-    <mat-grid-list cols="3" rowHeight="3:2" gutterSize="60px">
+    <mat-grid-list cols="3" rowHeight="2:1" gutterSize="60px">
       <mat-grid-tile *ngFor="let item of items">
           <div class="tile-content">
               <img [src]="item.pic" width = 50% alt="Image">
             </div>
             <mat-grid-tile-footer id = "tile-footer" >
               <div>
-                  {{ item.text }}, 
-                  {{ item.price }}
+                  {{item.text}}, 
+                  {{item.price | currency}}
               </div>
               <div>
-                <button mat-mini-fab color="blue">
+                <button  (click) = "addtoCheckout(item.text, +item.price, +1)" mat-mini-fab color="blue">
                   <mat-icon>add_shopping_cart</mat-icon>
                 </button>
               </div>
@@ -40,4 +91,6 @@
     2) figure out how to resize image
     4) edit cart button color
     5) add search bar at top
+    edit sizing of logo, 
+    if nothing in checkout, dont display card
  -->

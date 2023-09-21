@@ -1,24 +1,50 @@
 mat-grid-tile {
-    background: white;
+    background:white;
+    // justify-content: space-between;
 }
 mat-grid-list {
     margin-left: 5%;
     margin-right: 5%;
 }
+mat-card{
+    background:rgb(255, 255, 255, 0.1);
+    // position:absolute;
+    height: 20%;
+    margin-top: auto;
+}
+mat-divider{
+    background: white;
+    margin-top: 15px; /* Adjust the margin as needed */
+    height: 1px; 
+}
 h1{
     font-family: 'Oswald', sans-serif;
     font-size:xxx-large;
-    
-    
 }
 
 #tile-footer{
     background: #19A5BA;
     justify-content: space-between;
-    height:20%;
+    height:30%;
     font-family: 'Oswald', sans-serif;
     font-size:large;
-
+}
+#checkout-tile-footer{
+    background: #FFEEF6;
+    justify-content: space-between;
+    height:30%;
+    font-family: 'Oswald', sans-serif;
+    font-size:large;
+}
+#checkoutTile{
+    background:#FFEEF6;
+}
+#countButton {
+    // color: none;
+    border-radius: 50%;
+    height: 150px;
+    width: 150px;
+    color: black;
 }
 
 .tile-content {
@@ -26,6 +52,9 @@ h1{
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+    font-family: 'Oswald', sans-serif;
+    font-size:large;
+    color: black;
   }
 
 mat-sidenav-container{
@@ -42,7 +71,46 @@ mat-sidenav{
     color: white;
     width: 250px;
     font-family: 'Roboto Condensed', sans-serif;
+    align-items: center;
+    // justify-content: space-between;
+    display: flex;
+  flex-direction: column;
+  align-items: center; /* Optional: Center the divs horizontally */
+  justify-content: center; 
 }
+
+.side-division {
+    width: 30%; /* Adjust the width as needed */
+    padding: 10px;
+    box-sizing: border-box;
+    float: left;
+  }
+  
+  /* Style for the main content */
+  .parent{
+    margin-left: -50%;
+    position: absolute;
+  }
+  .main-content {
+    color: black;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 25px;
+    position: relative;
+  }
+  .secondDiv{
+    // float: left;
+    color: black;
+    padding-top: 5px;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 18px;
+    position: relative;
+  }
+
+  
+  .second-div {
+    // justify-content: space-between;
+    top: 120px; /* Place the second div below the first div */
+  }
 
 .pos-top{
     margin-left: 5%;
@@ -52,5 +120,81 @@ mat-sidenav{
     justify-content: space-between;
 }
 
+.total-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size:medium;
+}
+
+
+
+/* CSS */
+.button-17 {
+  align-items: center;
+  background-color: #fff;
+  border-radius: 50px;
+  border-style: none;
+  box-shadow: rgba(0, 0, 0, .2) 0 3px 5px -1px,rgba(0, 0, 0, .14) 0 6px 10px 0,rgba(0, 0, 0, .12) 0 1px 18px 0;
+  box-sizing: border-box;
+  color: black;
+  display: inline-flex;
+  fill: currentcolor;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 16px;
+  height: 70px;
+  justify-content: center;
+  line-height: normal;
+  max-width: 100%;
+  overflow: visible;
+  padding: 6px 20px;
+  position: relative;
+  text-align: center;
+  transition: box-shadow 280ms cubic-bezier(.4, 0, .2, 1),opacity 15ms linear 30ms,transform 270ms cubic-bezier(0, 0, .2, 1) 0ms;
+  touch-action: manipulation;
+  width: auto;
+  will-change: transform,opacity;
+  z-index: 0;
+}
+
+.button-17:hover {
+  background: #FFEEF6;
+  color: black;
+}
+
+.button-17:active {
+  box-shadow: 0 4px 4px 0 rgb(60 64 67 / 30%), 0 8px 12px 6px rgb(60 64 67 / 15%);
+  outline: none;
+}
+
+.button-17:focus {
+  outline: none;
+  border: 2px solid #4285f4;
+}
+
+.button-17:not(:disabled) {
+  box-shadow: rgba(60, 64, 67, .3) 0 1px 3px 0, rgba(60, 64, 67, .15) 0 4px 8px 3px;
+}
+
+.button-17:not(:disabled):hover {
+  box-shadow: rgba(60, 64, 67, .3) 0 2px 3px 0, rgba(60, 64, 67, .15) 0 6px 10px 4px;
+}
+
+.button-17:not(:disabled):focus {
+  box-shadow: rgba(60, 64, 67, .3) 0 1px 3px 0, rgba(60, 64, 67, .15) 0 4px 8px 3px;
+}
+
+.button-17:not(:disabled):active {
+  box-shadow: rgba(60, 64, 67, .3) 0 4px 4px 0, rgba(60, 64, 67, .15) 0 8px 12px 6px;
+}
+
+.button-17:disabled {
+  box-shadow: rgba(60, 64, 67, .3) 0 1px 3px 0, rgba(60, 64, 67, .15) 0 4px 8px 3px;
+}
+  
+  
+  
+  
+  
 
  
