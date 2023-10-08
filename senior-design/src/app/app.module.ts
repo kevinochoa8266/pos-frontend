@@ -16,6 +16,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatCardModule} from '@angular/material/card';
 import {MatDividerModule} from '@angular/material/divider';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import {MatDividerModule} from '@angular/material/divider';
     MatGridListModule,
     MatFormFieldModule,
     MatCardModule, 
-    MatDividerModule
+    MatDividerModule, 
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

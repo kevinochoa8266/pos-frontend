@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CheckoutItem } from './checkout.model';
+import { ProductService } from '../product.service';
 
 @Component({
   selector: 'app-pos',
@@ -32,18 +33,20 @@ export class PosComponent {
     
   ];
 
-  // checkoutItem: Checkout;
+  products: any[] = []; // Define an array to store the retrieved products
 
-  // constructor(name:string, price:number) {
-  //   // Initialize the checkoutItem object
-  //   this.checkoutItem = new Checkout(name, price, 1); // Example values
-  // }
-
-
- 
-  // checkoutList = [
-  //   { text: 'Item 1', price: 1, pic: "assets/img/logo1.png"},
-  // ];
+  constructor(private productService: ProductService) { }
+  
+  ngOnInit(): void {
+    this.productService.getProducts().subscribe(
+      (data) => {
+        this.products = data;
+      },
+      (error) => {
+        console.error('Error fetching products:', error);
+      }
+    );
+  }
   checkoutItems: CheckoutItem[] = [];
 
   // checkoutList : any[] = [];

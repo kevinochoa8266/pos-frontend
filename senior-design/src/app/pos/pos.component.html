@@ -62,7 +62,7 @@
       <button (click) = "sidenav.toggle()" mat-fab ><mat-icon>shopping_cart</mat-icon></button>
     </div>
   <br>
-    <mat-grid-list cols="3" rowHeight="2:1" gutterSize="60px">
+    <!-- <mat-grid-list cols="3" rowHeight="2:1" gutterSize="60px">
       <mat-grid-tile *ngFor="let item of items">
           <div class="tile-content">
               <img [src]="item.pic" width = 50% alt="Image">
@@ -79,7 +79,13 @@
               </div>
             </mat-grid-tile-footer>
         </mat-grid-tile>
-  </mat-grid-list>
+  </mat-grid-list> -->
+
+  <div *ngFor="let product of products">
+    <p>Name: {{ product.name }}</p>
+    <p>Price: {{ product.bulkPrice }}</p>
+  </div>
+  
   </mat-sidenav-content>
 </mat-sidenav-container>
 
