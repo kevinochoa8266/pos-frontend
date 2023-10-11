@@ -24,3 +24,8 @@ export class ProductService {
     );
   }
 }
+
+
+
+
+// only add to favorites if adding an image

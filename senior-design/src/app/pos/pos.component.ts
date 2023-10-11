@@ -50,6 +50,10 @@ export class PosComponent {
   checkoutItems: CheckoutItem[] = [];
 
   // checkoutList : any[] = [];
+  convertToDollars(pesoAmount: number): number {
+    const exchangeRate = 0.056; // 1 peso = 0.05 dollars
+    return pesoAmount * exchangeRate;
+  }
 
   addtoCheckout(itemtext: string, itemprice: number, count: number) {
     // this.checkoutList.push({text: itemtext, price: itemprice, pic: "assets/img/logo1.png"});
