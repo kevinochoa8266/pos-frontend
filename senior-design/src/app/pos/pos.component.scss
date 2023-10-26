@@ -35,6 +35,8 @@ h1{
 }
 #checkoutTile{
     background:#FFEEF6;
+    margin-left: 2px;
+    margin-right: 2px;
 }
 #countButton {
     // color: none;
@@ -85,20 +87,20 @@ mat-sidenav{
   
   /* Style for the main content */
   .parent{
-    margin-left: -50%;
+    // margin-left: 50%;
     position: absolute;
   }
   .main-content {
     color: black;
-    font-size: 25px;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 18px;
     position: relative;
   }
   .secondDiv{
     // float: left;
     color: black;
-    padding-top: 5px;
     font-family: 'Roboto Condensed', sans-serif;
-    font-size: 18px;
+    font-size: 15px;
     position: relative;
   }
 

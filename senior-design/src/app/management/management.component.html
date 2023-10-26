@@ -4,11 +4,39 @@
   </div>
   <br>
 
-<mat-card *ngFor="let product of products" class = "productCard">
+<!-- <mat-card *ngFor="let product of products" class = "productCard">
     <mat-card-content>
       {{product.name}}
       <br>
       Individual Price: {{convertToDollars(product.unitPrice) | currency}},
       Bulk Price: {{convertToDollars(product.bulkPrice) | currency}}
     </mat-card-content>
-  </mat-card>
+  </mat-card> -->
+
+  <mat-grid-list cols="3" rowHeight="3:2" gutterSize="60px">
+    <mat-grid-tile *ngFor="let item of products" class="matgridtile">
+        <div class = "parent">
+            <div class = "Management">
+                {{item.name}}, 
+                <br>
+                Individual Price: {{convertToDollars(item.unitPrice) | currency}}
+                <br>
+                Bulk Price: {{convertToDollars(item.bulkPrice) | currency}}
+            </div>
+            <div class = "secondDiv">
+              <button class="button-16" role="button">Edit Name</button>
+              <br>
+              <button class="button-16" role="button">Edit Price</button>
+              <br>
+              <button class="button-16" role="button">Add Image</button>
+
+            </div>
+          </div>
+
+      </mat-grid-tile>
+</mat-grid-list>
+
+<!-- Edit Name
+Edit Price
+Add Image
+ -->

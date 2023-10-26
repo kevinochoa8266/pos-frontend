@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CheckoutItem } from './checkout.model';
 import { ProductService } from '../product.service';
+import { PaymentService } from '../payment.service';
 
 @Component({
   selector: 'app-pos',
@@ -13,29 +14,13 @@ export class PosComponent {
   subtotal: number = 0;
   tax: number = 0;
   total: number = 0;
-  items = [
-    { id: 1, text: 'Item 1', price: '1', pic: "assets/img/logo1.png"},
-    { id: 2, text: 'Item 2', price: '2', pic: "assets/img/localStorage.png"},
-    { id: 3, text: 'Item 3', price: '3', pic: "assets/img/localStorage.png"},
-    { id: 1, text: 'Item 1', price: '1', pic: "assets/img/logo1.png"},
-    { id: 2, text: 'Item 2', price: '2', pic: "assets/img/localStorage.png"},
-    { id: 3, text: 'Item 3', price: '3', pic: "assets/img/localStorage.png"},
-    { id: 1, text: 'Item 1', price: '1', pic: "assets/img/logo1.png"},
-    { id: 2, text: 'Item 2', price: '2', pic: "assets/img/localStorage.png"},
-    { id: 3, text: 'Item 3', price: '3', pic: "assets/img/localStorage.png"},
-    { id: 1, text: 'Item 1', price: '1', pic: "assets/img/logo1.png"},
-    { id: 2, text: 'Item 2', price: '2', pic: "assets/img/localStorage.png"},
-    { id: 3, text: 'Item 3', price: '3', pic: "assets/img/localStorage.png"},
-    { id: 1, text: 'Item 1', price: '1', pic: "assets/img/logo1.png"},
-    { id: 2, text: 'Item 2', price: '2', pic: "assets/img/localStorage.png"},
-    { id: 3, text: 'Item 3', price: '3', pic: "assets/img/localStorage.png"},
-    
-    
-  ];
+ 
 
   products: any[] = []; // Define an array to store the retrieved products
+  checkoutItems: CheckoutItem[] = [];
 
-  constructor(private productService: ProductService) { }
+  constructor(private productService: ProductService, private paymentService: PaymentService) { }
+
   
   ngOnInit(): void {
     this.productService.getProducts().subscribe(
@@ -47,9 +32,8 @@ export class PosComponent {
       }
     );
   }
-  checkoutItems: CheckoutItem[] = [];
+  
 
-  // checkoutList : any[] = [];
   convertToDollars(pesoAmount: number): number {
     const exchangeRate = 0.056; // 1 peso = 0.05 dollars
     return pesoAmount * exchangeRate;
@@ -57,11 +41,12 @@ export class PosComponent {
 
   addtoCheckout(itemtext: string, itemprice: number, count: number) {
     // this.checkoutList.push({text: itemtext, price: itemprice, pic: "assets/img/logo1.png"});
-    const newItem = new CheckoutItem(itemtext, itemprice);
+    const newItem = new CheckoutItem(itemtext, this.convertToDollars(itemprice));
+
     this.checkoutItems.push(newItem);
     // this.checkoutList.push({ name: itemtext, price: itemprice, pic: "assets/img/logo1.png" });
 
-    this.subtotal = this.subtotal + itemprice;
+    this.subtotal = this.subtotal + this.convertToDollars(itemprice);
     this.updatePrice();
   }
   plusCount(item: CheckoutItem){
@@ -86,6 +71,35 @@ export class PosComponent {
   updatePrice(){
     this.tax = 0.7 * this.subtotal;
     this.total = this.subtotal + this.tax;
+  }
+
+  makePayment() {
+
+
+    const paymentData = {
+      id: "123456",
+      orderTotal: this.total,
+      products: this.checkoutItems.map(item => ({
+        productId: item.name,
+        quantity: item.count,
+        price: item.price,
+        boughtInBulk: item.boughtInBulk
+      })),
+      customerId: 123,
+      date: "2023-10-14T14:30:00Z",
+      readerId: "tmr_FTOPRQP39zuh2R"
+    };
+
+    this.paymentService.makePayment(paymentData).subscribe(
+      (response) => {
+        console.log('Payment successful:', response);
+        // Handle successful payment response here
+      },
+      (error) => {
+        console.error('Error making payment:', error);
+        // Handle errors here
+      }
+    );
   }
 
   
