@@ -16,13 +16,13 @@ interface favProduct {
   providedIn: 'root'
 })
 export class ProductService {
-  private baseUrl = 'http://localhost:8080/products'; // Replace with your API endpoint
+  private baseURL = 'http://localhost:8080'; // Replace with your API endpoint
   constructor(private http: HttpClient) { }
 
   getProducts(): Observable<any> {
-    const url = `${this.baseUrl}/products`;
     // return this.http.get(url);
-    return this.http.get<any[]>(this.baseUrl).pipe(
+    const getProductURL = `${this.baseURL}/products`;
+    return this.http.get<any[]>(getProductURL).pipe(
       catchError(error => {
         console.error('Error loading data:', error);
         return throwError(error);

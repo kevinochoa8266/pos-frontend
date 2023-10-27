@@ -12,17 +12,24 @@ mat-divider{
     margin-top: 15px; /* Adjust the margin as needed */
     height: 1px; 
 }
+
+#mainDivider{
+  margin-bottom: 15px;
+}
+
 h1{
     font-family: 'Oswald', sans-serif;
     font-size:xxx-large;
 }
 
 #tile-footer{
-    background: #19A5BA;
+    background: rgb(251, 252, 252, 0.8);
     justify-content: space-between;
-    height:30%;
+    height:50%;
     font-family: 'Oswald', sans-serif;
     font-size:large;
+    border:black;
+    border-width: 2px;
 }
 #checkout-tile-footer{
     background: #FFEEF6;
@@ -87,19 +94,28 @@ mat-sidenav{
   .parent{
     // margin-left: 50%;
     position: absolute;
+    display: flex;
+    flex-direction: column;
   }
   .main-content {
+    flex: 0 0 80%;
     color: black;
     font-family: 'Roboto Condensed', sans-serif;
     font-size: 18px;
     position: relative;
   }
   .secondDiv{
+    flex: 1; 
     // float: left;
     color: black;
     font-family: 'Roboto Condensed', sans-serif;
     font-size: 15px;
     position: relative;
+  }
+
+  #main{
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
   }
 
   

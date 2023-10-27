@@ -20,19 +20,19 @@ export class PosComponent {
   checkoutItems: CheckoutItem[] = [];
 
   constructor(private productService: ProductService, private paymentService: PaymentService) {
-    // this.products = this.productService.getFavProducts();
+    this.products = this.productService.getFavProducts();
   }
 
   
   ngOnInit(): void {
-    this.productService.getProducts().subscribe(
-      (data) => {
-        this.products = data;
-      },
-      (error) => {
-        console.error('Error fetching products:', error);
-      }
-    );
+    // this.productService.getProducts().subscribe(
+    //   (data) => {
+    //     this.products = data;
+    //   },
+    //   (error) => {
+    //     console.error('Error fetching products:', error);
+    //   }
+    // );
   }
   
 
@@ -41,12 +41,11 @@ export class PosComponent {
     return pesoAmount * exchangeRate;
   }
 
-  addtoCheckout(itemtext: string, itemprice: number, count: number) {
-    // this.checkoutList.push({text: itemtext, price: itemprice, pic: "assets/img/logo1.png"});
-    const newItem = new CheckoutItem(itemtext, this.convertToDollars(itemprice));
-
+  addtoCheckout(itemtext: string, itemID: string, itemprice: number, count: number) {
+    const newItem = new CheckoutItem(itemtext, itemID, this.convertToDollars(itemprice));
+    console.log(this.convertToDollars(itemprice));
     this.checkoutItems.push(newItem);
-    // this.checkoutList.push({ name: itemtext, price: itemprice, pic: "assets/img/logo1.png" });
+    console.log(newItem);
 
     this.subtotal = this.subtotal + this.convertToDollars(itemprice);
     this.updatePrice();
@@ -76,31 +75,26 @@ export class PosComponent {
   }
 
   makePayment() {
-
-
     const paymentData = {
-      id: "123456",
-      orderTotal: this.total,
+      orderTotal: "500",
       products: this.checkoutItems.map(item => ({
         productId: item.name,
         quantity: item.count,
-        price: item.price,
+        // price: item.price,
+        price: 500,
         boughtInBulk: item.boughtInBulk
       })),
       customerId: 123,
-      date: "2023-10-14T14:30:00Z",
-      readerId: "tmr_FTOPRQP39zuh2R"
+      readerId: "tmr_FTjfRARmJXBs3P"
     };
 
     this.paymentService.makePayment(paymentData).subscribe(
       (response) => {
-        console.log('Payment successful:', response);
-        
+        console.log('Payment successful:', response);  
         // Handle successful payment response here
       },
       (error) => {
         console.error('Error making payment:', error);
-
         // Handle errors here
       }
     );

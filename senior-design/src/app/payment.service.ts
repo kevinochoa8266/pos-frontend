@@ -11,7 +11,6 @@ export class PaymentService {
   constructor(private http: HttpClient) { }
   
   makePayment(paymentData: any): Observable<any> {
-
     return this.http.post(this.paymentURL, paymentData);
   }
 }
