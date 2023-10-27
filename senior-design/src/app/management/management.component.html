@@ -1,3 +1,6 @@
+<div class="ManagementPortal">
+  <!-- Your component content goes here -->
+
  <br>
  <div class = "pos-top">
     <h1>Management Portal</h1>
@@ -13,14 +16,17 @@
     </mat-card-content>
   </mat-card> -->
 
-  <mat-grid-list cols="3" rowHeight="3:2" gutterSize="60px">
-    <mat-grid-tile *ngFor="let item of products" class="matgridtile">
+  <mat-grid-list cols="4" rowHeight="4:4" gutterSize="60px">
+    <mat-grid-tile *ngFor="let item of products">
         <div class = "parent">
             <div class = "Management">
-                {{item.name}}, 
-                <br>
+                <div class = "ItemName">
+                {{item.name}} 
+                </div>
+                <mat-divider></mat-divider>
+                <div>
                 Individual Price: {{convertToDollars(item.unitPrice) | currency}}
-                <br>
+              </div>
                 Bulk Price: {{convertToDollars(item.bulkPrice) | currency}}
             </div>
             <div class = "secondDiv">
@@ -28,15 +34,12 @@
               <br>
               <button class="button-16" role="button">Edit Price</button>
               <br>
-              <button class="button-16" role="button">Add Image</button>
-
+              <button (click) = "addtoFavProduct(item.name, +convertToDollars(item.unitPrice), +convertToDollars(item.bulkPrice))" class="button-16" role="button">Add Image</button>
             </div>
           </div>
 
       </mat-grid-tile>
 </mat-grid-list>
 
-<!-- Edit Name
-Edit Price
-Add Image
- -->
+</div>
+

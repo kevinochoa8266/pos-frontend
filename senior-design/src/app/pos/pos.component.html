@@ -67,22 +67,22 @@
   <br>
     <mat-grid-list cols="3" rowHeight="2:1" gutterSize="60px">
       <mat-grid-tile *ngFor="let item of products">
-          <div class="tile-content">
-              <!-- <img [src]="item.pic" width = 50% alt="Image"> -->
-            </div>
+        <!-- <div class="tile-content">
+          <img [src]="item.picURL" width = 50% alt="Image">
+        </div> -->
+          <div class = "parent">
             <!-- <mat-grid-tile-footer id = "tile-footer" > -->
-              <div>
+              <div class = "main-content">
                   {{item.name}}, 
-                  <br>
                   Individual Price: {{convertToDollars(item.unitPrice) | currency}}
-                  <br>
                   Bulk Price: {{convertToDollars(item.bulkPrice) | currency}}
               </div>
-              <div>
+              <div class = "secondDiv">
                 <button  (click) = "addtoCheckout(item.name, +item.unitPrice, +1)" mat-mini-fab color="blue">
                   <mat-icon>add_shopping_cart</mat-icon>
                 </button>
               </div>
+            </div>
             <!-- </mat-grid-tile-footer> -->
         </mat-grid-tile>
   </mat-grid-list>

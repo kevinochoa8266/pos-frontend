@@ -26,4 +26,16 @@ export class ManagementComponent {
     const exchangeRate = 0.056; // 1 peso = 0.05 dollars
     return pesoAmount * exchangeRate;
   }
+
+
+  addtoFavProduct(name: string, indivPrice: number, bulkPrice: number) {
+    const newFav = {
+      name: name,
+      individualPrice: indivPrice,
+      bulkPrice: bulkPrice,
+      picUrl: 'string'
+    };
+
+    this.productService.addfavProduct(newFav);
+  }
 }

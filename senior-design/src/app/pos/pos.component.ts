@@ -19,7 +19,9 @@ export class PosComponent {
   products: any[] = []; // Define an array to store the retrieved products
   checkoutItems: CheckoutItem[] = [];
 
-  constructor(private productService: ProductService, private paymentService: PaymentService) { }
+  constructor(private productService: ProductService, private paymentService: PaymentService) {
+    // this.products = this.productService.getFavProducts();
+  }
 
   
   ngOnInit(): void {
@@ -93,10 +95,12 @@ export class PosComponent {
     this.paymentService.makePayment(paymentData).subscribe(
       (response) => {
         console.log('Payment successful:', response);
+        
         // Handle successful payment response here
       },
       (error) => {
         console.error('Error making payment:', error);
+
         // Handle errors here
       }
     );

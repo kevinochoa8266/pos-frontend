@@ -5,12 +5,18 @@ import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 
+interface favProduct {
+  name: string;
+  individualPrice: number;
+  bulkPrice: number;
+  picUrl: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
   private baseUrl = 'http://localhost:8080/products'; // Replace with your API endpoint
-
   constructor(private http: HttpClient) { }
 
   getProducts(): Observable<any> {
@@ -23,6 +29,18 @@ export class ProductService {
       })
     );
   }
+
+
+
+  private favproducts: favProduct[] = [];
+  addfavProduct(product: favProduct) {
+    this.favproducts.push(product);
+  }
+
+  getFavProducts() {
+    return this.favproducts;
+  }
+
 }
 
 
