@@ -31,10 +31,17 @@ export class ProductService {
     );
   }
 
+  addProduct(productData: Product): Observable<any>{
+    const postProductURL = `${this.baseURL}/products`;
+    return this.http.post(postProductURL, { body: productData });
+  }
+
   deleteProduct(product: Product): Observable<any> {
     const deleteProductURL = `${this.baseURL}/products`;
     return this.http.delete(deleteProductURL, { body: product });
   }
+
+
   private favproducts: favProduct[] = [];
   addfavProduct(product: favProduct) {
     this.favproducts.push(product);

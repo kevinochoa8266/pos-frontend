@@ -51,7 +51,7 @@ export class ManagementComponent {
   }
 
   deleteProduct(product: Product){
-    this.productService.deleteProduct(product);
+    // this.productService.deleteProduct(product);
   }
   
   //POST Image

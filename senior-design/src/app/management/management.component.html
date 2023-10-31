@@ -4,18 +4,10 @@
  <br>
  <div class = "pos-top">
     <h1>Management Portal</h1>
+    <button mat-fab ><mat-icon>add</mat-icon></button>
   </div>
   <br>
-
-<!-- <mat-card *ngFor="let product of products" class = "productCard">
-    <mat-card-content>
-      {{product.name}}
-      <br>
-      Individual Price: {{convertToDollars(product.unitPrice) | currency}},
-      Bulk Price: {{convertToDollars(product.bulkPrice) | currency}}
-    </mat-card-content>
-  </mat-card> -->
-
+  
   <mat-grid-list cols="4" rowHeight="4:4" gutterSize="40px">
     <mat-grid-tile *ngFor="let item of products">
         <div class = "parent">
