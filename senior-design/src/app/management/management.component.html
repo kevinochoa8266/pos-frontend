@@ -16,9 +16,10 @@
     </mat-card-content>
   </mat-card> -->
 
-  <mat-grid-list cols="4" rowHeight="4:4" gutterSize="60px">
+  <mat-grid-list cols="4" rowHeight="4:4" gutterSize="40px">
     <mat-grid-tile *ngFor="let item of products">
         <div class = "parent">
+      <button class = "delete" (click) = "deleteProduct(item)" role="button"><mat-icon>delete_outline</mat-icon></button>
             <div class = "Management">
                 <div class = "ItemName">
                 {{item.name}} 

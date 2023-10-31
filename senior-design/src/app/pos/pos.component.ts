@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CheckoutItem } from './checkout.model';
+import { CheckoutItem } from '../product.model';
 import { ProductService } from '../product.service';
 import { PaymentService } from '../payment.service';
 

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { Product } from './product.model';
 
 interface favProduct {
   name: string;
@@ -30,8 +31,10 @@ export class ProductService {
     );
   }
 
-
-
+  deleteProduct(product: Product): Observable<any> {
+    const deleteProductURL = `${this.baseURL}/products`;
+    return this.http.delete(deleteProductURL, { body: product });
+  }
   private favproducts: favProduct[] = [];
   addfavProduct(product: favProduct) {
     this.favproducts.push(product);

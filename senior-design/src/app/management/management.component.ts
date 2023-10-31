@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ProductService } from '../product.service';
 import { ImagesService } from '../images.service';
+import { Product } from '../product.model';
 
 @Component({
   selector: 'app-management',
@@ -8,7 +9,7 @@ import { ImagesService } from '../images.service';
   styleUrls: ['./management.component.scss']
 })
 export class ManagementComponent {
-  products: any[] = []; // Define an array to store the retrieved products
+  products: Product[] = []; // Define an array to store the retrieved products
   images: any[] = [];
 
   constructor(private productService: ProductService, private imageService: ImagesService) { }
@@ -47,6 +48,10 @@ export class ManagementComponent {
     };
 
     this.productService.addfavProduct(newFav);
+  }
+
+  deleteProduct(product: Product){
+    this.productService.deleteProduct(product);
   }
   
   //POST Image

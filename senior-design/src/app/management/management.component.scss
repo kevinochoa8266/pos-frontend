@@ -82,6 +82,13 @@ mat-divider{
 }
 
 /* CSS */
+.delete {
+  background-color: transparent;
+  border: 1px solid white;
+  // border: 2px solid black;
+  // border-radius: 5px;
+  text-align: right;
+}
 .button-16 {
     margin-top: 3%;
   // background-color: #f8f9fa;

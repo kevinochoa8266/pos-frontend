@@ -14,3 +14,23 @@ export class CheckoutItem {
     }
   }
   
+  export class Product {
+    id: string;
+    name: string;
+    unitPrice: number;
+    bulkPrice: number;
+    inventory: number;
+    itemsInPacket: number;
+    storeId: string;
+
+    constructor(data: any) {
+      this.id = data.id;
+      this.name = data.name;
+      this.unitPrice = data.unitPrice;
+      this.bulkPrice = data.bulkPrice;
+      this.inventory = data.inventory;
+      this.itemsInPacket = data.itemsInPacket;
+      this.storeId = data.storeId;
+    }
+ 
+  }
