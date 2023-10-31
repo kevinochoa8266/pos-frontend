@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ProductService } from '../product.service';
 import { ImagesService } from '../images.service';
 import { Product } from '../product.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-management',
@@ -50,8 +51,74 @@ export class ManagementComponent {
     this.productService.addfavProduct(newFav);
   }
 
+  async addProduct(){
+    const { value: formValues } = await Swal.fire({
+      title: 'Add Product',
+      customClass: {
+        title: 'title-class',
+      },
+      html:
+        '<label for="id-input">ID</label>' +
+        '<input id="id-input" class="swal2-input">' + 
+        '<br>' +
+        '<label for="name-input">Name</label>' +
+        '<input id="name-input" class="swal2-input">' +
+        '<br>' +
+        '<label for="unitprice-input">Unit Price</label>' +
+        '<input id="unitprice-input" class="swal2-input">' + 
+        '<br>' +
+        '<label for="bulkprice-input">Bulk Price</label>' +
+        '<input id="bulkprice-input" class="swal2-input">' +
+        '<br>' +
+        '<label for="inventory-input">Inventory</label>' +
+        '<input id="inventory-input" class="swal2-input">' +
+        '<br>' +
+        '<label for="num-input">Items in Packet</label>' +
+        '<input id="num-input" class="swal2-input">' +
+        '<br>' +
+        '<label for="storeID-input">Store ID</label>' +
+        '<input id="storeID-input" class="swal2-input">',
+
+      focusConfirm: false,
+      preConfirm: () => {
+          const id = document.getElementById('id-input') as HTMLInputElement;
+          const name = document.getElementById('name-input') as HTMLInputElement;
+          const unitPrice = parseFloat((document.getElementById('unitprice-input') as HTMLInputElement).value);
+          const bulkPrice = parseFloat((document.getElementById('bulkprice-input') as HTMLInputElement).value);
+          const inventory = parseFloat((document.getElementById('inventory-input') as HTMLInputElement).value);
+          const numinPacket = parseFloat((document.getElementById('num-input') as HTMLInputElement).value);
+          const storeID = parseFloat((document.getElementById('storeID-input') as HTMLInputElement).value);
+
+          if (!id.value || !name.value || !unitPrice || !bulkPrice || 
+            !inventory || !numinPacket || !storeID) {
+            Swal.showValidationMessage('All inputs are required');
+          }
+          const newProduct = new Product(id.value, name.value, unitPrice, bulkPrice, inventory, numinPacket, storeID);
+          this.productService.addProduct(newProduct);
+          return [id.value, name.value, unitPrice, bulkPrice, 
+            inventory, numinPacket, storeID];   
+      }
+    })
+  }
   deleteProduct(product: Product){
-    // this.productService.deleteProduct(product);
+    Swal.fire({
+      title: 'Are you sure you want to delete this product?',
+      text: "The product will be permanently deleted",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // this.productService.deleteProduct(product);
+        Swal.fire(
+          'Deleted!',
+          product.name + ' has been deleted.',
+          'success'
+        )
+      }
+    })
   }
   
   //POST Image
@@ -71,3 +138,8 @@ export class ManagementComponent {
 
 
 }
+
+//HAVE TO EDIT CHECKOUT TOAL INFO TO PERSIST
+//ADD PRODUCT TO WORK?
+//STOREID IS A INT ON ADD PRODUCT BUT NOT ON GET PRODUCT
+

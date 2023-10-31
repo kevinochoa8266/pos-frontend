@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CheckoutItem } from '../product.model';
 import { ProductService } from '../product.service';
 import { PaymentService } from '../payment.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-pos',
@@ -21,6 +22,7 @@ export class PosComponent {
 
   constructor(private productService: ProductService, private paymentService: PaymentService) {
     this.products = this.productService.getFavProducts();
+    this.checkoutItems = this.productService.getCheckoutItems();
   }
 
   
@@ -43,9 +45,8 @@ export class PosComponent {
 
   addtoCheckout(itemtext: string, itemID: string, itemprice: number, count: number) {
     const newItem = new CheckoutItem(itemtext, itemID, this.convertToDollars(itemprice));
-    console.log(this.convertToDollars(itemprice));
-    this.checkoutItems.push(newItem);
-    console.log(newItem);
+    // this.checkoutItems.push(newItem);
+    this.productService.addCheckoutItem(newItem);
 
     this.subtotal = this.subtotal + this.convertToDollars(itemprice);
     this.updatePrice();
@@ -88,18 +89,30 @@ export class PosComponent {
       readerId: "tmr_FTjfRARmJXBs3P"
     };
 
-    this.paymentService.makePayment(paymentData).subscribe(
-      (response) => {
-        console.log('Payment successful:', response);  
-        // Handle successful payment response here
-      },
-      (error) => {
-        console.error('Error making payment:', error);
-        // Handle errors here
-      }
-    );
+    Swal.fire({
+      title: 'Do you want to submit this order?',
+      text: 'Total is: ' + this.total,
+      showDenyButton: true,
+      confirmButtonText: 'Yes',
+      denyButtonText: `Go back to checkout`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        this.paymentService.makePayment(paymentData).subscribe(
+          (response) => {
+            console.log('Payment successful:', response);  
+            Swal.fire('Payment successful!', '', 'success')
+            // Handle successful payment response here
+          },
+          (error) => {
+            console.error('Error making payment:', error);
+            Swal.fire('Error making payment', '', 'error')
+            // Handle errors here
+          }
+        );
+        
+      } 
+
+    })
   }
-
-  
-
 }

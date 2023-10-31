@@ -6,16 +6,16 @@ export class Product {
   bulkPrice: number;
   inventory: number;
   itemsInPacket: number;
-  storeId: string;
+  storeId: number;
 
-  constructor(data: any) {
-    this.id = data.id;
-    this.name = data.name;
-    this.unitPrice = data.unitPrice;
-    this.bulkPrice = data.bulkPrice;
-    this.inventory = data.inventory;
-    this.itemsInPacket = data.itemsInPacket;
-    this.storeId = data.storeId;
+  constructor(id: string, name: string, unitPrice: number, bulkPrice: number, inventory: number, itemsInPacket: number, storeId: number) {
+    this.id = id;
+    this.name = name;
+    this.unitPrice = unitPrice;
+    this.bulkPrice = bulkPrice;
+    this.inventory = inventory;
+    this.itemsInPacket = itemsInPacket;
+    this.storeId = storeId;
   }
 
 }

@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { Product } from './product.model';
+import { CheckoutItem } from './product.model';
 
 interface favProduct {
   name: string;
@@ -33,7 +34,12 @@ export class ProductService {
 
   addProduct(productData: Product): Observable<any>{
     const postProductURL = `${this.baseURL}/products`;
-    return this.http.post(postProductURL, { body: productData });
+    return this.http.post(postProductURL, { body: productData }).pipe(
+      catchError(error => {
+        console.error('Error adding product:', error);
+        return throwError(error);
+      })
+    );
   }
 
   deleteProduct(product: Product): Observable<any> {
@@ -49,6 +55,15 @@ export class ProductService {
 
   getFavProducts() {
     return this.favproducts;
+  }
+
+  private checkoutItems: CheckoutItem[] = [];
+  addCheckoutItem(item: CheckoutItem) {
+    this.checkoutItems.push(item);
+  }
+
+  getCheckoutItems() {
+    return this.checkoutItems;
   }
 
 }
