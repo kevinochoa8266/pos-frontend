@@ -34,9 +34,9 @@ export class ProductService {
   }
 
   //Adds Product to Product List
-  addProduct(productData: Product): Observable<any>{
+  addProduct(productData: any): Observable<any>{
     const postProductURL = `${this.baseURL}/products`;
-    return this.http.post(postProductURL, { body: productData }).pipe(
+    return this.http.post(postProductURL, productData).pipe(
       catchError(error => {
         console.error('Error adding product:', error);
         return throwError(error);
@@ -47,6 +47,7 @@ export class ProductService {
   //Deletes Product from Product List
   deleteProduct(product: Product): Observable<any> {
     const deleteProductURL = `${this.baseURL}/products`;
+    console.log("From service: ", product);
     return this.http.delete(deleteProductURL, { body: product });
   }
 
@@ -64,6 +65,7 @@ export class ProductService {
 
   
   private checkoutItems: CheckoutItem[] = []; //Array for Checkout Items
+  private checkoutTotal: number = 0;
   //Adds CheckoutItem to checkout side navigation bar
   addCheckoutItem(item: CheckoutItem) {
     this.checkoutItems.push(item);
@@ -71,6 +73,14 @@ export class ProductService {
   //Gets CheckoutItem List to display on checkout side navigation bar
   getCheckoutItems() {
     return this.checkoutItems;
+  }
+
+  updateTotal(total: number){
+    this.checkoutTotal += total;
+  }
+
+  getTotal(){
+    return this.checkoutTotal;
   }
 
 }

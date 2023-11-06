@@ -6,9 +6,9 @@ export class Product {
   bulkPrice: number;
   inventory: number;
   itemsInPacket: number;
-  storeId: number;
+  storeId: string;
 
-  constructor(id: string, name: string, unitPrice: number, bulkPrice: number, inventory: number, itemsInPacket: number, storeId: number) {
+  constructor(id: string, name: string, unitPrice: number, bulkPrice: number, inventory: number, itemsInPacket: number, storeId: string) {
     this.id = id;
     this.name = name;
     this.unitPrice = unitPrice;
@@ -27,12 +27,12 @@ export class CheckoutItem {
     count: number;
     boughtInBulk: boolean;
   
-    constructor(name: string, id: string, price: number) {
+    constructor(name: string, id: string, price: number, bulk: boolean) {
       this.name = name;
       this.id = id;
       this.price = price;
       this.count = 1;
-      this.boughtInBulk = false;  
+      this.boughtInBulk = bulk;  
     }
   }
   

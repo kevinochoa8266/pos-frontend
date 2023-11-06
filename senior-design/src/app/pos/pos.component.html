@@ -8,7 +8,7 @@
       <mat-grid-tile *ngFor="let item of checkoutItems" id = "checkoutTile">
         <div class = "parent">
           <div class="main-content">{{item.name}}</div>
-          <div class = "secondDiv">{{item.price | currency}}</div>
+          <div class = "secondDiv">{{item.price}}¢</div>
         </div>
 
         <!-- Each checkout item contains a footer that has options to increment and 
@@ -27,23 +27,13 @@
     <mat-card class ="checkoutCard"> 
       <mat-card-content>
         <div class="total-line">
-          <span>Subtotal</span>
-          <span>{{subtotal | currency}}</span>
-        </div>
-        <div class="total-line">
-          <span>Tax</span>
-          <span>{{tax | currency}}</span>
-        </div>
-        <mat-divider></mat-divider>
-        <br>
-        <div class="total-line">
-          <span>Total</span>
-          <span>{{total | currency}}</span>
+          <span>Total: </span>
+          <span>{{total}}¢</span>
         </div>
       </mat-card-content>
-      <br>
-      <br>
-      <button class="button-17" role="button" (click)="makePayment()"> Proceed to payment </button>
+      <div class="total-line">
+        <button class="button-17" role="button" (click)="makePayment()"> Proceed to payment </button>
+      </div>
     </mat-card>
   </mat-sidenav>
   <!-- End of code for Checkout Side Navigation Bar -->
@@ -67,9 +57,9 @@
             <!-- Name, Prices, Checkout Button -->
             <div class = "secondDiv">
                 <div id = "name">{{item.name}} </div>
-                <div>Individual Price: {{convertToDollars(item.individualPrice) | currency}}</div>
-                <div>Bulk Price: {{convertToDollars(item.bulkPrice) | currency}}</div>
-                <button  (click) = "sidenav.open()" (click) = "addtoCheckout(item.name, item.id, +item.individualPrice, +1)" mat-mini-fab color="blue">
+                <div>Individual Price: {{item.individualPrice}}¢</div>
+                <div>Bulk Price: {{item.bulkPrice}}¢</div>
+                <button  (click) = "sidenav.open()" (click) = "addtoCheckout(item.name, item.id, +item.individualPrice, +item.bulkPrice, +1)" mat-mini-fab color="blue">
                   <mat-icon>add_shopping_cart</mat-icon>
                 </button>
             </div>

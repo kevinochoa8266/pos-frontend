@@ -16,8 +16,8 @@
             <div class = "Management">
                 <div class = "ItemName">{{item.name}} </div>
                 <mat-divider></mat-divider>
-                <div>Individual Price: {{convertToDollars(item.unitPrice) | currency}}</div>
-                 Bulk Price: {{convertToDollars(item.bulkPrice) | currency}}
+                <div>Individual Price: {{item.unitPrice}}¢</div>
+                 Bulk Price: {{item.bulkPrice}}¢
             </div>
             <div class = "secondDiv">
               <button mat-fab><mat-icon>star_border</mat-icon></button>

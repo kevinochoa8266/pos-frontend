@@ -12,9 +12,7 @@ import Swal from 'sweetalert2';
 export class PosComponent {
   search : String ="";
   opened = false;
-  subtotal: number = 0;
-  tax: number = 0;
-  total: number = 0;
+  total: number;
  
   products: any[] = []; // Define an array to store the retrieved products
   checkoutItems: CheckoutItem[] = []; //Array for Checkout Items
@@ -23,6 +21,7 @@ export class PosComponent {
   constructor(private productService: ProductService, private paymentService: PaymentService) {
     this.products = this.productService.getFavProducts();
     this.checkoutItems = this.productService.getCheckoutItems();
+    this.total = this.productService.getTotal();
   }
 
   
@@ -30,27 +29,42 @@ export class PosComponent {
   }
   
 
-  convertToDollars(pesoAmount: number): number {
-    const exchangeRate = 0.056; // 1 peso = 0.05 dollars
-    return pesoAmount * exchangeRate;
-  }
+  // convertToDollars(pesoAmount: number): number {
+  //   const exchangeRate = 0.056; // 1 peso = 0.05 dollars
+  //   return pesoAmount * exchangeRate;
+  // }
 
   //Adds Product to Checkout Item Array and updates pricing
-  addtoCheckout(itemtext: string, itemID: string, itemprice: number, count: number) {
-    const newItem = new CheckoutItem(itemtext, itemID, this.convertToDollars(itemprice));
-    // this.checkoutItems.push(newItem);
-    this.productService.addCheckoutItem(newItem);
+  addtoCheckout(itemtext: string, itemID: string, itemprice: number, bulkprice: number, count: number) {
+    Swal.fire({
+      title: 'Do you want to buy Individual Product or in Bulk?',
+      showDenyButton: true,
+      confirmButtonText: 'Bulk',
+      denyButtonText: `Individual`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const newItem = new CheckoutItem(itemtext, itemID, itemprice, true);
+        this.productService.addCheckoutItem(newItem);
+        this.productService.updateTotal(itemprice);
+        this.total = this.total + itemprice;
+      }
+      else{
+        const newItem = new CheckoutItem(itemtext, itemID, bulkprice, false);
+        this.productService.addCheckoutItem(newItem);
+        this.productService.updateTotal(bulkprice);
+        this.total = this.total + bulkprice;
+      }
+    })
 
-    this.subtotal = this.subtotal + this.convertToDollars(itemprice);
-    this.updatePrice();
+    
   }
 
   //Increments desired product and updates pricing
   plusCount(item: CheckoutItem){
     item.count++;
-    this.subtotal = this.subtotal + item.price;
+    this.total = this.total + item.price;
+    this.productService.updateTotal(item.price);
     item.price *=2;
-    this.updatePrice();
   }
 
   //Decrements desired product and updates pricing
@@ -62,15 +76,10 @@ export class PosComponent {
       this.checkoutItems.splice(index, 1);
     }
     item.price /=2;
-    this.subtotal = this.subtotal - item.price;
-    this.updatePrice();
+    this.total = this.total - item.price;
+    this.productService.updateTotal(item.price* -1);
   }
   
-  //Updates Pricing
-  updatePrice(){
-    this.tax = 0.7 * this.subtotal;
-    this.total = this.subtotal + this.tax;
-  }
 
   //Calls makePayment API Call; processes payment transaction
   //Uses SweeAlert Popup
@@ -80,22 +89,21 @@ export class PosComponent {
       products: this.checkoutItems.map(item => ({
         productId: item.name,
         quantity: item.count,
-        // price: item.price,
         price: item.price,
         boughtInBulk: item.boughtInBulk
       })),
-      customerId: 123,
-      readerId: "tmr_FTjfRARmJXBs3P"
+      customerId: "cus_OwkAvKmcmctUfZ",
+      // readerId: "tmr_FTjfRARmJXBs3P"
+      readerId:"tmr_FUNvywWDqIlIJo"
     };
 
     Swal.fire({
       title: 'Do you want to submit this order?',
-      text: 'Total is: ' + this.total,
+      text: 'Total is: ' + this.total + '¢',
       showDenyButton: true,
       confirmButtonText: 'Yes',
       denyButtonText: `Go back to checkout`,
     }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
         this.paymentService.makePayment(paymentData).subscribe(
           (response) => {

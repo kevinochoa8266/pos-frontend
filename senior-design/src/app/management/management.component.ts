@@ -28,10 +28,10 @@ export class ManagementComponent {
     );
   }
 
-  convertToDollars(pesoAmount: number): number {
-    const exchangeRate = 0.056; // 1 peso = 0.05 dollars
-    return pesoAmount * exchangeRate;
-  }
+  // convertToDollars(pesoAmount: number): number {
+  //   const exchangeRate = 0.056; // 1 peso = 0.05 dollars
+  //   return pesoAmount * exchangeRate;
+  // }
 
   //Users can favorite a product so that its image will appear on the 'Shop Candy' page
   // Function adds product details to an array of favorite products in the product service
@@ -79,28 +79,59 @@ export class ManagementComponent {
         '<input id="inventory-input" class="swal2-input">' +
         '<br>' +
         '<label for="num-input">Items in Packet</label>' +
-        '<input id="num-input" class="swal2-input">' +
-        '<br>' +
-        '<label for="storeID-input">Store ID</label>' +
-        '<input id="storeID-input" class="swal2-input">',
+        '<input id="num-input" class="swal2-input">',
+        // +
+        // '<br>' +
+        // '<label for="storeID-input">Store ID</label>' +
+        // '<input id="storeID-input" class="swal2-input">',
 
       focusConfirm: false,
       preConfirm: () => {
-          const id = document.getElementById('id-input') as HTMLInputElement;
-          const name = document.getElementById('name-input') as HTMLInputElement;
+          const id = (document.getElementById('id-input') as HTMLInputElement);
+          const name = (document.getElementById('name-input') as HTMLInputElement);
           const unitPrice = parseFloat((document.getElementById('unitprice-input') as HTMLInputElement).value);
           const bulkPrice = parseFloat((document.getElementById('bulkprice-input') as HTMLInputElement).value);
           const inventory = parseFloat((document.getElementById('inventory-input') as HTMLInputElement).value);
           const numinPacket = parseFloat((document.getElementById('num-input') as HTMLInputElement).value);
-          const storeID = parseFloat((document.getElementById('storeID-input') as HTMLInputElement).value);
-
-          if (!id.value || !name.value || !unitPrice || !bulkPrice || 
-            !inventory || !numinPacket || !storeID) {
-            Swal.showValidationMessage('All inputs are required');
+          const storeID = "tml_FTjdYgcKDFzOot";
+          // const id = "4422";
+          // const name = "Takis2";
+          // const unitPrice = 4000;
+          // const bulkPrice = 450000;
+          // const inventory = 150;
+          // const numinPacket = 10;
+          // const storeID = "tml_FTjdYgcKDFzOot";
+          const productData = {
+            id: id.toString,
+            name: name.toString,
+            unitPrice: unitPrice,
+            bulkPrice: bulkPrice,
+            inventory: inventory,
+            itemsInPacket: numinPacket,
+            storeId: "tml_FTjdYgcKDFzOot"
+          };
+          if (!id || !name || !unitPrice || !bulkPrice || !inventory || !numinPacket || !storeID) {
+            Swal.showValidationMessage('All inputs are required!');
           }
-          const newProduct = new Product(id.value, name.value, unitPrice, bulkPrice, inventory, numinPacket, storeID);
-          this.productService.addProduct(newProduct);
-          return [id.value, name.value, unitPrice, bulkPrice, 
+          this.productService.addProduct(productData).subscribe(
+            (response) => {
+              console.log('Product Added Successfully:', response);  
+              Swal.fire('Product successfully added!', '', 'success');
+              this.productService.getProducts().subscribe(
+                (data) => {
+                  this.products = data;
+                },
+                (error) => {
+                  console.error('Error fetching products:', error);
+                }
+              );
+            },
+            (error) => {
+              console.error('Error adding product:', error);
+              Swal.fire('Error adding product', '', 'error')
+            }
+          ); 
+          return [id, name, unitPrice, bulkPrice, 
             inventory, numinPacket, storeID];   
       }
     })
@@ -119,12 +150,34 @@ export class ManagementComponent {
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.isConfirmed) {
-        // this.productService.deleteProduct(product);
-        Swal.fire(
-          'Deleted!',
-          product.name + ' has been deleted.',
-          'success'
-        )
+        this.productService.deleteProduct(product).subscribe(
+          response => {
+            console.log('Item deleted successfully:', response);
+            Swal.fire(
+              'Deleted!',
+              product.name + ' has been deleted.',
+              'success'
+            );
+
+            this.productService.getProducts().subscribe(
+              (data) => {
+                this.products = data;
+              },
+              (error) => {
+                console.error('Error fetching products:', error);
+              }
+            );
+          },
+          error => {
+            console.error('Error deleting item:', error);
+            Swal.fire(
+              'Error deleting item:!',
+              product.name + ' has been deleted.',
+              'error'
+            )
+          }
+        );
+        
       }
     })
   }
@@ -147,9 +200,8 @@ export class ManagementComponent {
 
 }
 
-//HAVE TO EDIT CHECKOUT TOAL INFO TO PERSIST
 //ADD PRODUCT TO WORK?
 //STOREID IS A INT ON ADD PRODUCT BUT NOT ON GET PRODUCT
 //favorite button
-//work on pennies, remove taxrs and subottal
+
 

@@ -90,7 +90,23 @@ mat-divider{
   // border: 2px solid black;
   // border-radius: 5px;
   text-align: right;
+  // display:inline;
+  border-radius: 90%;
+  align-items: center;
+
 }
+.delete:hover {
+  background-color: #E3F2FD;
+  border-width: 2px;
+  box-shadow: rgba(0, 0, 0, .1) 0 1px 1px;
+  color: #080707;
+}
+.delete:focus {
+  border-color: #075de7;
+  outline:none;
+  border-width: 2px;  
+}
+
 .button-16 {
     margin-top: 3%;
   // background-color: #f8f9fa;
@@ -125,27 +141,3 @@ mat-divider{
   border-width: 2px;  
 }
 
-.custom-checkbox .glyphicon {
-  color: gold;
-  position: absolute;
-  top: 0.4em;
-  left: -1.25em;
-  font-size: 0.75em;
-}
-
-.custom-checkbox .glyphicon-star-empty {
-  color: gray;
-}
-
-.custom-checkbox .glyphicon-star {
-  opacity: 0;
-  transition: opacity 0.2s ease-in-out;
-}
-
-.custom-checkbox:hover .glyphicon-star{
-  opacity: 0.5;
-}
-
-.custom-checkbox input[type="checkbox"]:checked ~ .glyphicon-star {
-  opacity: 1;
-}
