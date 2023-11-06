@@ -23,11 +23,9 @@
                 Bulk Price: {{convertToDollars(item.bulkPrice) | currency}}
             </div>
             <div class = "secondDiv">
-              <button class="button-16" role="button">Edit Name</button>
+              <button mat-fab><mat-icon>star_border</mat-icon></button>
               <br>
-              <button class="button-16" role="button">Edit Price</button>
-              <br>
-              <button (click) = "addtoFavProduct(item.name, +item.unitPrice, +item.bulkPrice)" class="button-16" role="button">Add Image</button>
+              <button (click) = "addtoFavProduct(item.name, +item.unitPrice, +item.bulkPrice)" class="button-16" role="button">Edit Product</button>
             </div>
           </div>
 

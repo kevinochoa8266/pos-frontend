@@ -77,12 +77,12 @@ export class PosComponent {
 
   makePayment() {
     const paymentData = {
-      orderTotal: "500",
+      orderTotal: this.total,
       products: this.checkoutItems.map(item => ({
         productId: item.name,
         quantity: item.count,
         // price: item.price,
-        price: 500,
+        price: item.price,
         boughtInBulk: item.boughtInBulk
       })),
       customerId: 123,

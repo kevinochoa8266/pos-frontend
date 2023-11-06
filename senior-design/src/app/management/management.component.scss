@@ -29,6 +29,7 @@ mat-grid-tile {
     background: rgb(255, 255, 255);
     justify-content: space-between;
     text-align:  left;
+    border-radius: 5%;
 }
     
 mat-grid-list {
@@ -123,6 +124,27 @@ mat-divider{
   border-width: 2px;  
 }
 
-.title-class {
-  font-size: 15px !important;
+.custom-checkbox .glyphicon {
+  color: gold;
+  position: absolute;
+  top: 0.4em;
+  left: -1.25em;
+  font-size: 0.75em;
+}
+
+.custom-checkbox .glyphicon-star-empty {
+  color: gray;
+}
+
+.custom-checkbox .glyphicon-star {
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.custom-checkbox:hover .glyphicon-star{
+  opacity: 0.5;
+}
+
+.custom-checkbox input[type="checkbox"]:checked ~ .glyphicon-star {
+  opacity: 1;
 }

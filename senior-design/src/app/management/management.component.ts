@@ -142,4 +142,6 @@ export class ManagementComponent {
 //HAVE TO EDIT CHECKOUT TOAL INFO TO PERSIST
 //ADD PRODUCT TO WORK?
 //STOREID IS A INT ON ADD PRODUCT BUT NOT ON GET PRODUCT
+//favorite button
+//work on pennies, remove taxrs and subottal
 
