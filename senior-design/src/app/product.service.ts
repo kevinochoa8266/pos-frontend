@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { Product } from './product.model';
@@ -17,12 +16,14 @@ interface favProduct {
 @Injectable({
   providedIn: 'root'
 })
+
+//Class that gets, adds, deletes, and updates product list
 export class ProductService {
-  private baseURL = 'http://localhost:8080'; // Replace with your API endpoint
+  private baseURL = 'http://localhost:8080';
   constructor(private http: HttpClient) { }
 
+  //Gets Current List of Products
   getProducts(): Observable<any> {
-    // return this.http.get(url);
     const getProductURL = `${this.baseURL}/products`;
     return this.http.get<any[]>(getProductURL).pipe(
       catchError(error => {
@@ -32,6 +33,7 @@ export class ProductService {
     );
   }
 
+  //Adds Product to Product List
   addProduct(productData: Product): Observable<any>{
     const postProductURL = `${this.baseURL}/products`;
     return this.http.post(postProductURL, { body: productData }).pipe(
@@ -42,26 +44,31 @@ export class ProductService {
     );
   }
 
+  //Deletes Product from Product List
   deleteProduct(product: Product): Observable<any> {
     const deleteProductURL = `${this.baseURL}/products`;
     return this.http.delete(deleteProductURL, { body: product });
   }
 
 
-  private favproducts: favProduct[] = [];
+  private favproducts: favProduct[] = []; //Array for Favorited Products
+  //Adds Product to List of favorite products displayed on 'Shop Candy' Page
   addfavProduct(product: favProduct) {
     this.favproducts.push(product);
   }
 
+  //Gets Favorite Products to display on 'Shop Candy' page
   getFavProducts() {
     return this.favproducts;
   }
 
-  private checkoutItems: CheckoutItem[] = [];
+  
+  private checkoutItems: CheckoutItem[] = []; //Array for Checkout Items
+  //Adds CheckoutItem to checkout side navigation bar
   addCheckoutItem(item: CheckoutItem) {
     this.checkoutItems.push(item);
   }
-
+  //Gets CheckoutItem List to display on checkout side navigation bar
   getCheckoutItems() {
     return this.checkoutItems;
   }

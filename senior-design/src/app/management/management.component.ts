@@ -10,11 +10,13 @@ import Swal from 'sweetalert2';
   styleUrls: ['./management.component.scss']
 })
 export class ManagementComponent {
+
   products: Product[] = []; // Define an array to store the retrieved products
   images: any[] = [];
 
   constructor(private productService: ProductService, private imageService: ImagesService) { }
   
+  //When page is loaded, getProducts() gets list of products and displays
   ngOnInit(): void {
     this.productService.getProducts().subscribe(
       (data) => {
@@ -31,7 +33,8 @@ export class ManagementComponent {
     return pesoAmount * exchangeRate;
   }
 
-
+  //Users can favorite a product so that its image will appear on the 'Shop Candy' page
+  // Function adds product details to an array of favorite products in the product service
   addtoFavProduct(name: string, indivPrice: number, bulkPrice: number) {
     this.imageService.getImage().subscribe(
         (data) => {
@@ -51,6 +54,8 @@ export class ManagementComponent {
     this.productService.addfavProduct(newFav);
   }
 
+  //Function calls addProduct API Call to add a product to the current list of products
+  //Uses a SweetAlert popup to get necessary input from user
   async addProduct(){
     const { value: formValues } = await Swal.fire({
       title: 'Add Product',
@@ -100,6 +105,9 @@ export class ManagementComponent {
       }
     })
   }
+
+  //Function calls deleteProduct Api call to permanently delete a product from the list
+  //Uses SweetAlert Popup
   deleteProduct(product: Product){
     Swal.fire({
       title: 'Are you sure you want to delete this product?',

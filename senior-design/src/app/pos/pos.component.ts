@@ -16,10 +16,10 @@ export class PosComponent {
   tax: number = 0;
   total: number = 0;
  
-
   products: any[] = []; // Define an array to store the retrieved products
-  checkoutItems: CheckoutItem[] = [];
+  checkoutItems: CheckoutItem[] = []; //Array for Checkout Items
 
+  //When page is loaded, favorite products and current items in checkout are loaded and displayed
   constructor(private productService: ProductService, private paymentService: PaymentService) {
     this.products = this.productService.getFavProducts();
     this.checkoutItems = this.productService.getCheckoutItems();
@@ -27,14 +27,6 @@ export class PosComponent {
 
   
   ngOnInit(): void {
-    // this.productService.getProducts().subscribe(
-    //   (data) => {
-    //     this.products = data;
-    //   },
-    //   (error) => {
-    //     console.error('Error fetching products:', error);
-    //   }
-    // );
   }
   
 
@@ -43,6 +35,7 @@ export class PosComponent {
     return pesoAmount * exchangeRate;
   }
 
+  //Adds Product to Checkout Item Array and updates pricing
   addtoCheckout(itemtext: string, itemID: string, itemprice: number, count: number) {
     const newItem = new CheckoutItem(itemtext, itemID, this.convertToDollars(itemprice));
     // this.checkoutItems.push(newItem);
@@ -51,6 +44,8 @@ export class PosComponent {
     this.subtotal = this.subtotal + this.convertToDollars(itemprice);
     this.updatePrice();
   }
+
+  //Increments desired product and updates pricing
   plusCount(item: CheckoutItem){
     item.count++;
     this.subtotal = this.subtotal + item.price;
@@ -58,6 +53,7 @@ export class PosComponent {
     this.updatePrice();
   }
 
+  //Decrements desired product and updates pricing
   minusCount(item: CheckoutItem){
     item.count--;
     const index = this.checkoutItems.indexOf(item);
@@ -69,12 +65,15 @@ export class PosComponent {
     this.subtotal = this.subtotal - item.price;
     this.updatePrice();
   }
-
+  
+  //Updates Pricing
   updatePrice(){
     this.tax = 0.7 * this.subtotal;
     this.total = this.subtotal + this.tax;
   }
 
+  //Calls makePayment API Call; processes payment transaction
+  //Uses SweeAlert Popup
   makePayment() {
     const paymentData = {
       orderTotal: this.total,
@@ -102,17 +101,13 @@ export class PosComponent {
           (response) => {
             console.log('Payment successful:', response);  
             Swal.fire('Payment successful!', '', 'success')
-            // Handle successful payment response here
           },
           (error) => {
             console.error('Error making payment:', error);
             Swal.fire('Error making payment', '', 'error')
-            // Handle errors here
           }
-        );
-        
+        ); 
       } 
-
     })
   }
 }

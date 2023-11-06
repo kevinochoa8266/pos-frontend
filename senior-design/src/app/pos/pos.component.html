@@ -1,99 +1,80 @@
 <mat-sidenav-container>
-  <!--  -->
+
+
   <!-- CHECKOUT SIDENAV -->
+  <!-- Contains side navigation bar with list of checkout items, the total amount, option to continue to payment -->
   <mat-sidenav #sidenav mode = "side" [(opened)]="opened" position = "end">
     <mat-grid-list cols="1" rowHeight="3:2" gutterSize="20px">
       <mat-grid-tile *ngFor="let item of checkoutItems" id = "checkoutTile">
-            <div class = "parent">
-              <div class="main-content">
-                {{item.name}}
-              </div>
-              <div class = "secondDiv">
-                {{item.price | currency}}
-              </div>
-            </div>
+        <div class = "parent">
+          <div class="main-content">{{item.name}}</div>
+          <div class = "secondDiv">{{item.price | currency}}</div>
+        </div>
 
-              <mat-grid-tile-footer id = "checkout-tile-footer">
-                <button mat-button (click)="minusCount(item)" id = "countButton">
-                  <mat-icon>remove_circle_outline</mat-icon>
-                </button>
-
-                <p [style.color] = "'black'">{{item.count}}</p>
-
-                <button mat-button (click)="plusCount(item)" id = "countButton">
-                  <mat-icon>add_circle_outline</mat-icon>
-                </button>
-
-          </mat-grid-tile-footer>
-        </mat-grid-tile>
-  </mat-grid-list>
+        <!-- Each checkout item contains a footer that has options to increment and 
+        decrement amount of product along with a total count -->
+        <mat-grid-tile-footer id = "checkout-tile-footer">
+          <button mat-button (click)="minusCount(item)" id = "countButton"><mat-icon>remove_circle_outline</mat-icon></button>
+          <p [style.color] = "'black'">{{item.count}}</p>
+          <button mat-button (click)="plusCount(item)" id = "countButton"><mat-icon>add_circle_outline</mat-icon></button>
+        </mat-grid-tile-footer>
+      </mat-grid-tile>
+    </mat-grid-list>
 
 
-  <mat-card class ="checkoutCard"> 
-    <mat-card-content>
-      <div class="total-line">
-        <span>Subtotal</span>
-        <span>{{subtotal | currency}}</span>
-      </div>
-      <div class="total-line">
-        <span>Tax</span>
-        <span>{{tax | currency}}</span>
-      </div>
-  
-      <mat-divider></mat-divider>
+  <!-- Checkout Card displays the total amount in pennies -->
+  <!-- Button that calls makePayment API Call -->
+    <mat-card class ="checkoutCard"> 
+      <mat-card-content>
+        <div class="total-line">
+          <span>Subtotal</span>
+          <span>{{subtotal | currency}}</span>
+        </div>
+        <div class="total-line">
+          <span>Tax</span>
+          <span>{{tax | currency}}</span>
+        </div>
+        <mat-divider></mat-divider>
+        <br>
+        <div class="total-line">
+          <span>Total</span>
+          <span>{{total | currency}}</span>
+        </div>
+      </mat-card-content>
       <br>
-      <div class="total-line">
-        <span>Total</span>
-        <span>{{total | currency}}</span>
-      </div>
-    </mat-card-content>
-    <br>
-    <br>
-    <button class="button-17" role="button" (click)="makePayment()"> Proceed to payment </button>
-  </mat-card>
-
-  <!-- CHECKOUT SIDENAV -->
-  <!--  -->
-  
-
+      <br>
+      <button class="button-17" role="button" (click)="makePayment()"> Proceed to payment </button>
+    </mat-card>
   </mat-sidenav>
+  <!-- End of code for Checkout Side Navigation Bar -->
+
 
   <!-- MAIN POS GRID -->
+  <!-- Code for main POS page: consists of grid display of favorited products 
+    including image, name, individual price, bulk price, and button to add item to checkout -->
   <mat-sidenav-content>
     <div class = "pos-top">
       <h1>Welcome!</h1>
       <button (click) = "sidenav.toggle()" mat-fab ><mat-icon>shopping_cart</mat-icon></button>
     </div>
-  <br>
+    <br>
     <mat-grid-list cols="4" rowHeight="4:4" gutterSize="40px">
       <mat-grid-tile *ngFor="let item of products">
         <div class = "parent">
-          <div class="main-content">
-            <img [src]="item.picURL" width = 50% alt="Image" >
-          </div>
+          <!-- Product Image -->
+          <div class="main-content"><img [src]="item.picURL" width = 50% alt="Image" ></div>
           <mat-divider id = "mainDivider"></mat-divider>
+            <!-- Name, Prices, Checkout Button -->
             <div class = "secondDiv">
-                <div id = "name">
-                {{item.name}} 
-                </div>
-                <div>
-                Individual Price: {{convertToDollars(item.individualPrice) | currency}}
-              </div>
-              <div>
-                Bulk Price: {{convertToDollars(item.bulkPrice) | currency}}
-              </div>
+                <div id = "name">{{item.name}} </div>
+                <div>Individual Price: {{convertToDollars(item.individualPrice) | currency}}</div>
+                <div>Bulk Price: {{convertToDollars(item.bulkPrice) | currency}}</div>
                 <button  (click) = "sidenav.open()" (click) = "addtoCheckout(item.name, item.id, +item.individualPrice, +1)" mat-mini-fab color="blue">
                   <mat-icon>add_shopping_cart</mat-icon>
                 </button>
             </div>
-            <!-- <div class = "secondDiv"> -->
-              <!-- <button  (click) = "sidenav.open()" (click) = "addtoCheckout(item.name, item.id, +item.unitPrice, +1)" mat-mini-fab color="blue">
-                <mat-icon>add_shopping_cart</mat-icon>
-              </button> -->
-            <!-- </div> -->
-          </div>
-        </mat-grid-tile>
-  </mat-grid-list>
-  
+        </div>
+      </mat-grid-tile>
+    </mat-grid-list>
   </mat-sidenav-content>
 </mat-sidenav-container>

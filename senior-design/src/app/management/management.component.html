@@ -1,26 +1,23 @@
 <div class="ManagementPortal">
-  <!-- Your component content goes here -->
-
  <br>
+ <!-- Includes Title and Add Product Button -->
  <div class = "pos-top">
     <h1>Management Portal</h1>
     <button (click) = "addProduct()" mat-fab ><mat-icon>add</mat-icon></button>
   </div>
   <br>
   
+  <!-- Grid List of Products -->
+  <!-- Each product contains option to delete product, favorite product, and edit product -->
   <mat-grid-list cols="4" rowHeight="4:4" gutterSize="40px">
     <mat-grid-tile *ngFor="let item of products">
         <div class = "parent">
       <button class = "delete" (click) = "deleteProduct(item)" role="button"><mat-icon>delete_outline</mat-icon></button>
             <div class = "Management">
-                <div class = "ItemName">
-                {{item.name}} 
-                </div>
+                <div class = "ItemName">{{item.name}} </div>
                 <mat-divider></mat-divider>
-                <div>
-                Individual Price: {{convertToDollars(item.unitPrice) | currency}}
-              </div>
-                Bulk Price: {{convertToDollars(item.bulkPrice) | currency}}
+                <div>Individual Price: {{convertToDollars(item.unitPrice) | currency}}</div>
+                 Bulk Price: {{convertToDollars(item.bulkPrice) | currency}}
             </div>
             <div class = "secondDiv">
               <button mat-fab><mat-icon>star_border</mat-icon></button>
@@ -28,7 +25,6 @@
               <button (click) = "addtoFavProduct(item.name, +item.unitPrice, +item.bulkPrice)" class="button-16" role="button">Edit Product</button>
             </div>
           </div>
-
       </mat-grid-tile>
 </mat-grid-list>
 
