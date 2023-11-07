@@ -4,29 +4,27 @@
     height: 10%;
     text-align: center;
     align-items: center;
-    padding: -10px;
+    padding: -10%;
     background: black;
     z-index: 998;
 }
 
 #logo{
-    width:70px;
-    height:70px;
-
+    width:15%;
+    height:15%;
+    margin-left: -80%;
 }
 
-span{
-    padding-right:1rem;
-}
+// span{
+//     padding-right:1rem;
+// }
 
-mat-button {
-    
-    padding: 12px 24px; /* Adjust padding to control the button's height and width */
-}
+// mat-button {
+//     padding: 12px 24px; /* Adjust padding to control the button's height and width */
+// }
 #buttons{
     color: white;
     font-size: 90%; /* Adjust the font size to your desired size */
-
 }
 
 .fixed{

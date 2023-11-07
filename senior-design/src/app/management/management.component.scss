@@ -91,8 +91,7 @@ mat-divider{
   // border-radius: 5px;
   text-align: right;
   // display:inline;
-  border-radius: 90%;
-  align-items: center;
+  border-radius: 35%;
 
 }
 .delete:hover {
@@ -141,3 +140,13 @@ mat-divider{
   border-width: 2px;  
 }
 
+.swal2-input {
+  background-color: black;
+}
+.custom-swal-content{
+  font-family: 'Times New Roman', Times, serif;
+  background-color: black;
+}
+.custom-deny{
+  background-color: pink;
+}

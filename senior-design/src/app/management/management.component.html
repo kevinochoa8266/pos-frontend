@@ -20,9 +20,9 @@
                  Bulk Price: {{item.bulkPrice}}¢
             </div>
             <div class = "secondDiv">
-              <button mat-fab><mat-icon>star_border</mat-icon></button>
+              <button class="button-16" (click) = "addtoFavProduct(item.name, +item.unitPrice, +item.bulkPrice)">Add to Favorites</button>   
               <br>
-              <button (click) = "addtoFavProduct(item.name, +item.unitPrice, +item.bulkPrice)" class="button-16" role="button">Edit Product</button>
+              <button  class="button-16" (click) = "editProduct()"role="button">Edit Product</button>
             </div>
           </div>
       </mat-grid-tile>

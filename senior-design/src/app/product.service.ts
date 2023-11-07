@@ -51,6 +51,14 @@ export class ProductService {
     return this.http.delete(deleteProductURL, { body: product });
   }
 
+  editProduct(productData: any): Observable<any> {
+    const editProductURL = `${this.baseURL}/products`;
+    console.log("From service: ", productData);
+    return this.http.put(editProductURL, productData);
+  }
+
+
+
 
   private favproducts: favProduct[] = []; //Array for Favorited Products
   //Adds Product to List of favorite products displayed on 'Shop Candy' Page

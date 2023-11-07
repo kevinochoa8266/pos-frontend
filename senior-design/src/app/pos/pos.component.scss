@@ -9,15 +9,12 @@ mat-grid-list {
     margin-left: 5%;
     margin-right: 5%;
 }
-
 mat-divider{
     background: white;
-    margin-top: 15px; /* Adjust the margin as needed */
-    height: 1px; 
+    margin-top: 10%; /* Adjust the margin as needed */
 }
-
 #mainDivider{
-  margin-bottom: 15px;
+  margin-bottom: 10%;
 }
 
 h1{
@@ -43,14 +40,13 @@ h1{
 }
 #checkoutTile{
     background:#FFEEF6;
-    margin-left: 2px;
-    margin-right: 2px;
+    margin-left: 2%;
+    margin-right: 2%;
 }
 #countButton {
-    // color: none;
-    border-radius: 50%;
-    height: 150px;
-    width: 150px;
+    // border-radius: 50%;
+    // height: 75%;
+    // width: 75%;
     color: black;
 }
 
@@ -67,31 +63,24 @@ h1{
 mat-sidenav-container{
     height: 90%;
     background: #FFEEF6
-
 }
 
 mat-sidenav, mat-sidenav-content{
-    padding: 16px;
+    padding: 1%;
 }
 mat-sidenav{
     background-color:black;
     color: white;
-    width: 250px;
+    width: 18%;
     font-family: 'Roboto Condensed', sans-serif;
     align-items: center;
     // justify-content: space-between;
     display: flex;
-  flex-direction: column;
-  align-items: center; /* Optional: Center the divs horizontally */
-  justify-content: center; 
+    flex-direction: column;
+    align-items: center; /* Optional: Center the divs horizontally */
+    justify-content: center; 
 }
 
-.side-division {
-    width: 30%; /* Adjust the width as needed */
-    padding: 10px;
-    box-sizing: border-box;
-    float: left;
-  }
   
   /* Style for the main content */
   .parent{

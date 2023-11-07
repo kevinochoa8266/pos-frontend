@@ -36,54 +36,44 @@ export class ManagementComponent {
   //Users can favorite a product so that its image will appear on the 'Shop Candy' page
   // Function adds product details to an array of favorite products in the product service
   addtoFavProduct(name: string, indivPrice: number, bulkPrice: number) {
-    this.imageService.getImage().subscribe(
-        (data) => {
-          this.images = data;
-        },
-        (error) => {
-          console.error('Error fetching products:', error);
-        }
-      );
+    // this.imageService.getImage().subscribe(
+    //     (data) => {
+    //       this.images = data;
+    //     },
+    //     (error) => {
+    //       console.error('Error fetching products:', error);
+    //     }
+    //   );
     const newFav = {
       name: name,
       individualPrice: indivPrice,
       bulkPrice: bulkPrice,
       picUrl: 'assets/img/circlelogo.png'
     };
-
     this.productService.addfavProduct(newFav);
   }
 
-  //Function calls addProduct API Call to add a product to the current list of products
-  //Uses a SweetAlert popup to get necessary input from user
-  async addProduct(){
+  async editProduct(){
     const { value: formValues } = await Swal.fire({
-      title: 'Add Product',
-      customClass: {
-        title: 'title-class',
-      },
+      title: 'Edit Product',
       html:
-        '<label for="id-input">ID</label>' +
-        '<input id="id-input" class="swal2-input">' + 
-        '<br>' +
-        '<label for="name-input">Name</label>' +
-        '<input id="name-input" class="swal2-input">' +
-        '<br>' +
-        '<label for="unitprice-input">Unit Price</label>' +
-        '<input id="unitprice-input" class="swal2-input">' + 
-        '<br>' +
-        '<label for="bulkprice-input">Bulk Price</label>' +
-        '<input id="bulkprice-input" class="swal2-input">' +
-        '<br>' +
-        '<label for="inventory-input">Inventory</label>' +
-        '<input id="inventory-input" class="swal2-input">' +
-        '<br>' +
-        '<label for="num-input">Items in Packet</label>' +
-        '<input id="num-input" class="swal2-input">',
-        // +
-        // '<br>' +
-        // '<label for="storeID-input">Store ID</label>' +
-        // '<input id="storeID-input" class="swal2-input">',
+      '<label for="id-input">ID</label>' +
+      '<input id="id-input" class="swal2-input">' + 
+      '<br>' +
+      '<label for="name-input">Name</label>' +
+      '<input id="name-input" class="swal2-input">' +
+      '<br>' +
+      '<label for="unitprice-input">Unit Price</label>' +
+      '<input id="unitprice-input" class="swal2-input">' + 
+      '<br>' +
+      '<label for="bulkprice-input">Edit Bulk Price</label>' +
+      '<input id="bulkprice-input" class="swal2-input">' +
+      '<br>' +
+      '<label for="inventory-input">Edit Inventory</label>' +
+      '<input id="inventory-input" class="swal2-input">' +
+      '<br>' +
+      '<label for="num-input">Items in Packet</label>' +
+      '<input id="num-input" class="swal2-input">',
 
       focusConfirm: false,
       preConfirm: () => {
@@ -94,13 +84,7 @@ export class ManagementComponent {
           const inventory = parseFloat((document.getElementById('inventory-input') as HTMLInputElement).value);
           const numinPacket = parseFloat((document.getElementById('num-input') as HTMLInputElement).value);
           const storeID = "tml_FTjdYgcKDFzOot";
-          // const id = "4422";
-          // const name = "Takis2";
-          // const unitPrice = 4000;
-          // const bulkPrice = 450000;
-          // const inventory = 150;
-          // const numinPacket = 10;
-          // const storeID = "tml_FTjdYgcKDFzOot";
+
           const productData = {
             id: id.toString,
             name: name.toString,
@@ -118,21 +102,91 @@ export class ManagementComponent {
               console.log('Product Added Successfully:', response);  
               Swal.fire('Product successfully added!', '', 'success');
               this.productService.getProducts().subscribe(
-                (data) => {
-                  this.products = data;
-                },
-                (error) => {
-                  console.error('Error fetching products:', error);
-                }
-              );
-            },
+                (data) => {this.products = data;},
+                (error) => {console.error('Error fetching products:', error);});},
             (error) => {
               console.error('Error adding product:', error);
               Swal.fire('Error adding product', '', 'error')
             }
           ); 
-          return [id, name, unitPrice, bulkPrice, 
-            inventory, numinPacket, storeID];   
+          // return [id, name, unitPrice, bulkPrice, inventory, numinPacket, storeID];   
+      }
+    })
+  }
+
+  
+
+  //Function calls addProduct API Call to add a product to the current list of products
+  //Uses a SweetAlert popup to get necessary input from user
+  async addProduct(){
+    const { value: formValues } = await Swal.fire({
+      title: 'Add Product',
+      customClass: {
+        container: 'custom-swal-content',
+        closeButton: 'custom-deny'
+      },
+      html:
+        '<div class="align-left">' + 
+        '<label for="id-input">ID</label>' +
+        '<br>'+
+        '<input id="id-input" class="swal2-input">' + 
+        '<br>' +
+        '<label for="name-input">Name</label>' +
+        '<br>'+
+        '<input id="name-input" class="swal2-input">' +
+        '<br>' +
+        '<label for="unitprice-input">Unit Price</label>' +
+        '<br>'+
+        '<input id="unitprice-input" class="swal2-input">' + 
+        '<br>' +
+        '<label for="bulkprice-input">Bulk Price</label>' +
+        '<br>'+
+        '<input id="bulkprice-input" class="swal2-input">' +
+        '<br>' +
+        '<label for="inventory-input">Inventory</label>' +
+        '<br>'+
+        '<input id="inventory-input" class="swal2-input">' +
+        '<br>' +
+        '<label for="num-input">Items in Packet</label>' +
+        '<br>'+
+        '<input id="num-input" class="swal2-input">'+
+        '</div>',
+
+      focusConfirm: false,
+      preConfirm: () => {
+          const id = (document.getElementById('id-input') as HTMLInputElement);
+          const name = (document.getElementById('name-input') as HTMLInputElement);
+          const unitPrice = parseFloat((document.getElementById('unitprice-input') as HTMLInputElement).value);
+          const bulkPrice = parseFloat((document.getElementById('bulkprice-input') as HTMLInputElement).value);
+          const inventory = parseFloat((document.getElementById('inventory-input') as HTMLInputElement).value);
+          const numinPacket = parseFloat((document.getElementById('num-input') as HTMLInputElement).value);
+          const storeID = "tml_FTjdYgcKDFzOot";
+
+          const productData = {
+            id: id.toString,
+            name: name.toString,
+            unitPrice: unitPrice,
+            bulkPrice: bulkPrice,
+            inventory: inventory,
+            itemsInPacket: numinPacket,
+            storeId: "tml_FTjdYgcKDFzOot"
+          };
+          if (!id || !name || !unitPrice || !bulkPrice || !inventory || !numinPacket || !storeID) {
+            Swal.showValidationMessage('All inputs are required!');
+          }
+          this.productService.addProduct(productData).subscribe(
+            (response) => {
+              console.log('Product Added Successfully:', response);  
+              Swal.fire('Product successfully added!', '', 'success');
+              this.productService.getProducts().subscribe(
+                (data) => {this.products = data;},
+                (error) => {console.error('Error fetching products:', error);});},
+            (error) => {
+              console.error('Error adding product:', error);
+              Swal.fire('Error adding product', '', 'error')
+            }
+          ); 
+          // return [id, name, unitPrice, bulkPrice, inventory, numinPacket, storeID];   
       }
     })
   }
