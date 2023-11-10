@@ -81,9 +81,9 @@ export class PosComponent {
     if(item.count == 0 && index != -1){
       this.checkoutItems.splice(index, 1);
     }
-    item.price /=2;
     this.total = this.total - item.price;
     this.productService.updateTotal(item.price* -1);
+    item.price /=2;
   }
   
 
@@ -93,7 +93,7 @@ export class PosComponent {
     const paymentData = {
       orderTotal: this.total,
       products: this.checkoutItems.map(item => ({
-        productId: item.name,
+        productId: item.id,
         quantity: item.count,
         price: item.price,
         boughtInBulk: item.boughtInBulk
