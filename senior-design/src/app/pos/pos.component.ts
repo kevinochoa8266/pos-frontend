@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CheckoutItem } from '../product.model';
 import { ProductService } from '../product.service';
 import { PaymentService } from '../payment.service';
 import Swal from 'sweetalert2';
+import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-pos',
@@ -13,9 +14,11 @@ export class PosComponent {
   search : String ="";
   opened = false;
   total: number;
- 
+  isButtonEnabled: boolean = true;
   products: any[] = []; // Define an array to store the retrieved products
   checkoutItems: CheckoutItem[] = []; //Array for Checkout Items
+  @ViewChild('sidenav')
+  sidenav!: MatSidenav;
 
   //When page is loaded, favorite products and current items in checkout are loaded and displayed
   constructor(private productService: ProductService, private paymentService: PaymentService) {
@@ -36,6 +39,7 @@ export class PosComponent {
 
   //Adds Product to Checkout Item Array and updates pricing
   addtoCheckout(itemtext: string, itemID: string, itemprice: number, bulkprice: number, count: number) {
+    console.log(this.products);
     Swal.fire({
       title: 'Do you want to buy Individual Product or in Bulk?',
       showDenyButton: true,
@@ -43,16 +47,18 @@ export class PosComponent {
       denyButtonText: `Individual`,
     }).then((result) => {
       if (result.isConfirmed) {
-        const newItem = new CheckoutItem(itemtext, itemID, itemprice, true);
-        this.productService.addCheckoutItem(newItem);
-        this.productService.updateTotal(itemprice);
-        this.total = this.total + itemprice;
-      }
-      else{
-        const newItem = new CheckoutItem(itemtext, itemID, bulkprice, false);
+        const newItem = new CheckoutItem(itemtext, itemID, bulkprice, true);
         this.productService.addCheckoutItem(newItem);
         this.productService.updateTotal(bulkprice);
         this.total = this.total + bulkprice;
+        this.sidenav.open();
+      }
+      else{
+        const newItem = new CheckoutItem(itemtext, itemID, itemprice, false);
+        this.productService.addCheckoutItem(newItem);
+        this.productService.updateTotal(itemprice);
+        this.total = this.total + itemprice;
+        this.sidenav.open();
       }
     })
 

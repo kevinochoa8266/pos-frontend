@@ -58,21 +58,27 @@ export class ManagementComponent {
       title: 'Edit Product',
       html:
       '<label for="id-input">ID</label>' +
+      '<br>' +
       '<input id="id-input" class="swal2-input">' + 
       '<br>' +
       '<label for="name-input">Name</label>' +
+      '<br>' +
       '<input id="name-input" class="swal2-input">' +
       '<br>' +
       '<label for="unitprice-input">Unit Price</label>' +
+      '<br>' +
       '<input id="unitprice-input" class="swal2-input">' + 
       '<br>' +
       '<label for="bulkprice-input">Edit Bulk Price</label>' +
+      '<br>' +
       '<input id="bulkprice-input" class="swal2-input">' +
       '<br>' +
       '<label for="inventory-input">Edit Inventory</label>' +
+      '<br>' +
       '<input id="inventory-input" class="swal2-input">' +
       '<br>' +
       '<label for="num-input">Items in Packet</label>' +
+      '<br>' +
       '<input id="num-input" class="swal2-input">',
 
       focusConfirm: false,
@@ -99,14 +105,14 @@ export class ManagementComponent {
           }
           this.productService.addProduct(productData).subscribe(
             (response) => {
-              console.log('Product Added Successfully:', response);  
-              Swal.fire('Product successfully added!', '', 'success');
+              console.log('Product Edited Successfully:', response);  
+              Swal.fire('Product successfully edited!', '', 'success');
               this.productService.getProducts().subscribe(
                 (data) => {this.products = data;},
                 (error) => {console.error('Error fetching products:', error);});},
             (error) => {
-              console.error('Error adding product:', error);
-              Swal.fire('Error adding product', '', 'error')
+              console.error('Error editing product:', error);
+              Swal.fire('Error editing product', '', 'error')
             }
           ); 
           // return [id, name, unitPrice, bulkPrice, inventory, numinPacket, storeID];   

@@ -16,6 +16,7 @@
         <mat-grid-tile-footer id = "checkout-tile-footer">
           <button mat-button (click)="minusCount(item)" id = "countButton"><mat-icon>remove_circle_outline</mat-icon></button>
           <p [style.color] = "'black'">{{item.count}}</p>
+          <br>
           <button mat-button (click)="plusCount(item)" id = "countButton"><mat-icon>add_circle_outline</mat-icon></button>
         </mat-grid-tile-footer>
       </mat-grid-tile>
@@ -31,10 +32,10 @@
           <span>{{total}}¢</span>
         </div>
       </mat-card-content>
-      <div class="total-line">
-        <button class="button-17" role="button" (click)="makePayment()"> Proceed to payment </button>
-      </div>
     </mat-card>
+    <div class="PaymentButton">
+      <button class="button-17" role="button" (click)="makePayment()"> Proceed to payment </button>
+    </div>
   </mat-sidenav>
   <!-- End of code for Checkout Side Navigation Bar -->
 
@@ -48,18 +49,21 @@
       <button (click) = "sidenav.toggle()" mat-fab ><mat-icon>shopping_cart</mat-icon></button>
     </div>
     <br>
-    <mat-grid-list cols="4" rowHeight="4:4" gutterSize="40px">
+    <mat-grid-list cols="4" rowHeight="5:6" gutterSize="40px">
       <mat-grid-tile *ngFor="let item of products">
         <div class = "parent">
           <!-- Product Image -->
-          <div class="main-content"><img [src]="item.picURL" width = 50% alt="Image" ></div>
+          <div class="base-content">
+            <img class = "img" [src]=item.picUrl width = 50% alt="Image" >
+          </div>
           <mat-divider id = "mainDivider"></mat-divider>
             <!-- Name, Prices, Checkout Button -->
-            <div class = "secondDiv">
+            <div class = "second-content">
                 <div id = "name">{{item.name}} </div>
-                <div>Individual Price: {{item.individualPrice}}¢</div>
-                <div>Bulk Price: {{item.bulkPrice}}¢</div>
-                <button  (click) = "sidenav.open()" (click) = "addtoCheckout(item.name, item.id, +item.individualPrice, +item.bulkPrice, +1)" mat-mini-fab color="blue">
+                <div id = "prices">Individual Price: {{item.individualPrice}}¢</div>
+                <div id = "prices">Bulk Price: {{item.bulkPrice}}¢</div>
+                <br>
+                <button  id = "checkoutBtn" [disabled]="!isButtonEnabled" (click) = "addtoCheckout(item.name, item.id, +item.individualPrice, +item.bulkPrice, +1)" mat-mini-fab color="blue">
                   <mat-icon>add_shopping_cart</mat-icon>
                 </button>
             </div>
