@@ -56,6 +56,7 @@ export class ManagementComponent {
   async editProduct(){
     const { value: formValues } = await Swal.fire({
       title: 'Edit Product',
+      allowOutsideClick: false,
       html:
       '<label for="id-input">ID</label>' +
       '<br>' +
@@ -131,6 +132,7 @@ export class ManagementComponent {
         container: 'custom-swal-content',
         closeButton: 'custom-deny'
       },
+      allowOutsideClick: false,
       html:
         '<div class="align-left">' + 
         '<label for="id-input">ID</label>' +

@@ -42,6 +42,7 @@ export class PosComponent {
     console.log(this.products);
     Swal.fire({
       title: 'Do you want to buy Individual Product or in Bulk?',
+      allowOutsideClick: false,
       showDenyButton: true,
       confirmButtonText: 'Bulk',
       denyButtonText: `Individual`,
@@ -61,8 +62,6 @@ export class PosComponent {
         this.sidenav.open();
       }
     })
-
-    
   }
 
   //Increments desired product and updates pricing
@@ -89,39 +88,88 @@ export class PosComponent {
 
   //Calls makePayment API Call; processes payment transaction
   //Uses SweeAlert Popup
-  makePayment() {
-    const paymentData = {
-      orderTotal: this.total,
-      products: this.checkoutItems.map(item => ({
-        productId: item.id,
-        quantity: item.count,
-        price: item.price,
-        boughtInBulk: item.boughtInBulk
-      })),
-      customerId: "cus_OwkAvKmcmctUfZ",
-      // readerId: "tmr_FTjfRARmJXBs3P"
-      readerId:"tmr_FUNvywWDqIlIJo"
-    };
-
+  async makePayment() {
+    let userEmail: string = '';
     Swal.fire({
-      title: 'Do you want to submit this order?',
-      text: 'Total is: ' + this.total + '¢',
+      title: "Would you like a receipt?",
       showDenyButton: true,
-      confirmButtonText: 'Yes',
-      denyButtonText: `Go back to checkout`,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.paymentService.makePayment(paymentData).subscribe(
-          (response) => {
-            console.log('Payment successful:', response);  
-            Swal.fire('Payment successful!', '', 'success')
-          },
-          (error) => {
-            console.error('Error making payment:', error);
-            Swal.fire('Error making payment', '', 'error')
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      denyButtonText: `No`
+    }).then(async(result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed || result.isDenied) {
+        if(result.isConfirmed){
+          const { value: email } = await Swal.fire({
+            title: "Input email address",
+            input: "email",
+            inputLabel: "Your email address",
+            inputPlaceholder: "Enter your email address"
+          });
+          if (email) {
+            Swal.fire(`Entered email: ${email}`);
+            userEmail = email as string;
           }
-        ); 
+        }
+        console.log(userEmail);
+
+        const paymentData = {
+          orderTotal: this.total,
+          products: this.checkoutItems.map(item => ({
+            productId: item.id,
+            quantity: item.count,
+            price: item.price,
+            boughtInBulk: item.boughtInBulk
+          })),
+          // email: userEmail,
+          customerId: "cus_OwkAvKmcmctUfZ",
+          readerId:"tmr_FUNvywWDqIlIJo"
+        };
+      
+        Swal.fire({
+          title: 'Do you want to submit this order?',
+          text: 'Total is: ' + this.total + '¢',
+          allowOutsideClick: false,
+          showDenyButton: true,
+          confirmButtonText: 'Yes',
+          denyButtonText: `Go back to checkout`,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire({
+              title: 'Processing payment',
+              allowOutsideClick: false,
+              showConfirmButton: false,
+              willOpen: () => {
+                Swal.showLoading();
+              },
+            });
+    
+            this.paymentService.makePayment(paymentData).subscribe(
+              (response) => {
+                //If payment is successful, clear checkout items, clear total, and close sidenav
+                console.log('Paymsent successful:', response);  
+                Swal.fire('Payment successful!', '', 'success');
+                this.checkoutItems = [];
+                this.total = 0;
+                this.productService.clearCheckoutItems();
+                this.productService.updateTotal(this.productService.getTotal() * -1);
+                this.sidenav.close();
+              },
+              (error) => {
+                console.error('Error making payment:', error);
+                Swal.fire('Error making payment', '', 'error')
+              }
+            ); 
+          } 
+        })
       } 
-    })
+      else {
+        // Handle the case when the user clicks "Cancel" (outside click or close button)
+        console.log('User canceled the action.');
+      }
+    });
+    
+
+    
   }
 }

@@ -78,6 +78,10 @@ export class ProductService {
   addCheckoutItem(item: CheckoutItem) {
     this.checkoutItems.push(item);
   }
+
+  clearCheckoutItems(){
+    this.checkoutItems = [];
+  }
   //Gets CheckoutItem List to display on checkout side navigation bar
   getCheckoutItems() {
     return this.checkoutItems;
