@@ -39,29 +39,85 @@ export class PosComponent {
 
   //Adds Product to Checkout Item Array and updates pricing
   addtoCheckout(itemtext: string, itemID: string, itemprice: number, bulkprice: number, count: number) {
-    console.log(this.products);
-    Swal.fire({
-      title: 'Do you want to buy Individual Product or in Bulk?',
-      allowOutsideClick: false,
-      showDenyButton: true,
-      confirmButtonText: 'Bulk',
-      denyButtonText: `Individual`,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const newItem = new CheckoutItem(itemtext, itemID, bulkprice, true);
-        this.productService.addCheckoutItem(newItem);
-        this.productService.updateTotal(bulkprice);
-        this.total = this.total + bulkprice;
-        this.sidenav.open();
-      }
-      else{
-        const newItem = new CheckoutItem(itemtext, itemID, itemprice, false);
-        this.productService.addCheckoutItem(newItem);
-        this.productService.updateTotal(itemprice);
-        this.total = this.total + itemprice;
-        this.sidenav.open();
-      }
-    })
+    //Have to update productservice total, count, and this.total
+    if(itemprice > 0){
+      Swal.fire({
+        title: 'Do you want to buy Individual Product or in Bulk?',
+        allowOutsideClick: false,
+        showDenyButton: true,
+        confirmButtonText: 'Bulk',
+        denyButtonText: `Individual`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          //Bulk
+          const existingItemIndex = this.checkoutItems.findIndex(item => item.id === itemID);
+          if (existingItemIndex !== -1) {
+            // Item with the same ID already exists, update its price
+            console.log('exists');
+            if(this.checkoutItems[existingItemIndex].boughtInBulk == true){
+              this.checkoutItems[existingItemIndex].price *= 2;
+              this.checkoutItems[existingItemIndex].count++;
+
+            }
+            else{
+              const newItem = new CheckoutItem(itemtext, itemID, bulkprice, true);
+              this.productService.addCheckoutItem(newItem);
+              this.productService.updateTotal(bulkprice);
+              this.total = this.total + bulkprice;
+            } 
+          } 
+          else {
+            console.log('dne');
+            // Item with the same ID does not exist, add a new item to the list
+            const newItem = new CheckoutItem(itemtext, itemID, bulkprice, true);
+            this.productService.addCheckoutItem(newItem);
+            this.productService.updateTotal(bulkprice);
+            this.total = this.total + bulkprice;
+          } 
+          this.sidenav.open();
+        }
+        else{
+          const existingItemIndex = this.checkoutItems.findIndex(item => item.id === itemID);
+          if (existingItemIndex !== -1) {
+            // Item with the same ID already exists, update its price
+            if(this.checkoutItems[existingItemIndex].boughtInBulk == false){
+              this.checkoutItems[existingItemIndex].price *= 2;
+              this.checkoutItems[existingItemIndex].count++;
+            }
+            else{
+              const newItem = new CheckoutItem(itemtext, itemID, itemprice, false);
+              this.productService.addCheckoutItem(newItem);
+              this.productService.updateTotal(itemprice);
+              this.total = this.total + itemprice;
+            } 
+          } 
+          else{
+            const newItem = new CheckoutItem(itemtext, itemID, itemprice, false);
+            this.productService.addCheckoutItem(newItem);
+            this.productService.updateTotal(itemprice);
+            this.total = this.total + itemprice;
+          }
+          
+          this.sidenav.open();
+        }
+      })
+    }
+    else{
+      const existingItemIndex = this.checkoutItems.findIndex(item => item.id === itemID);
+          if (existingItemIndex !== -1) {
+            // Item with the same ID already exists, update its price
+            console.log('exists');
+            this.checkoutItems[existingItemIndex].price *= 2;
+            this.checkoutItems[existingItemIndex].count++;
+          } 
+          else{
+            const newItem = new CheckoutItem(itemtext, itemID, bulkprice, true);
+            this.productService.addCheckoutItem(newItem);
+            this.productService.updateTotal(bulkprice);
+            this.total = this.total + bulkprice;
+            this.sidenav.open();
+          }
+    }
   }
 
   //Increments desired product and updates pricing

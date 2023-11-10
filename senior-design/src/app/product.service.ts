@@ -79,6 +79,10 @@ export class ProductService {
     this.checkoutItems.push(item);
   }
 
+  editCheckoutItem(item: CheckoutItem){
+    
+  }
+
   clearCheckoutItems(){
     this.checkoutItems = [];
   }

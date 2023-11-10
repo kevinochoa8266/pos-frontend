@@ -60,7 +60,7 @@
             <!-- Name, Prices, Checkout Button -->
             <div class = "second-content">
                 <div id = "name">{{item.name}} </div>
-                <div id = "prices">Individual Price: {{item.individualPrice}}¢</div>
+                <div *ngIf="item.individualPrice > 0"id = "prices">Individual Price: {{item.individualPrice}}¢</div>
                 <div id = "prices">Bulk Price: {{item.bulkPrice}}¢</div>
                 <br>
                 <button  id = "checkoutBtn" [disabled]="!isButtonEnabled" (click) = "addtoCheckout(item.name, item.id, +item.individualPrice, +item.bulkPrice, +1)" mat-mini-fab color="blue">
