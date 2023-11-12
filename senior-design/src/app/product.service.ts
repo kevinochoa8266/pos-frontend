@@ -5,6 +5,7 @@ import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { Product } from './product.model';
 import { CheckoutItem } from './product.model';
+import Swal from 'sweetalert2';
 
 interface favProduct {
   name: string;
@@ -63,7 +64,17 @@ export class ProductService {
   private favproducts: favProduct[] = []; //Array for Favorited Products
   //Adds Product to List of favorite products displayed on 'Shop Candy' Page
   addfavProduct(product: favProduct) {
-    this.favproducts.push(product);
+    const existingItemIndex = this.favproducts.findIndex(item => item.name === product.name);
+    if (existingItemIndex == -1) {
+      this.favproducts.push(product);
+      // Swal.fire()
+      Swal.fire(`${product.name} added to favorites`);
+      // Swal.close();
+    }
+    else{
+      Swal.fire("Product is already a favorite");
+      // Swal.close();
+    }
   }
 
   //Gets Favorite Products to display on 'Shop Candy' page

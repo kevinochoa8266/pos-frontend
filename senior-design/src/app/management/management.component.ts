@@ -84,8 +84,8 @@ export class ManagementComponent {
 
       focusConfirm: false,
       preConfirm: () => {
-          const id = (document.getElementById('id-input') as HTMLInputElement);
-          const name = (document.getElementById('name-input') as HTMLInputElement);
+          const id = (document.getElementById('id-input') as HTMLInputElement).value;
+          const name = (document.getElementById('name-input') as HTMLInputElement).value;
           const unitPrice = parseFloat((document.getElementById('unitprice-input') as HTMLInputElement).value);
           const bulkPrice = parseFloat((document.getElementById('bulkprice-input') as HTMLInputElement).value);
           const inventory = parseFloat((document.getElementById('inventory-input') as HTMLInputElement).value);
@@ -93,8 +93,8 @@ export class ManagementComponent {
           const storeID = "tml_FTjdYgcKDFzOot";
 
           const productData = {
-            id: id.toString,
-            name: name.toString,
+            id: id,
+            name: name,
             unitPrice: unitPrice,
             bulkPrice: bulkPrice,
             inventory: inventory,
@@ -162,8 +162,8 @@ export class ManagementComponent {
 
       focusConfirm: false,
       preConfirm: () => {
-          const id = (document.getElementById('id-input') as HTMLInputElement);
-          const name = (document.getElementById('name-input') as HTMLInputElement);
+          const id = (document.getElementById('id-input') as HTMLInputElement).value;
+          const name = (document.getElementById('name-input') as HTMLInputElement).value;
           const unitPrice = parseFloat((document.getElementById('unitprice-input') as HTMLInputElement).value);
           const bulkPrice = parseFloat((document.getElementById('bulkprice-input') as HTMLInputElement).value);
           const inventory = parseFloat((document.getElementById('inventory-input') as HTMLInputElement).value);
@@ -171,8 +171,8 @@ export class ManagementComponent {
           const storeID = "tml_FTjdYgcKDFzOot";
 
           const productData = {
-            id: id.toString,
-            name: name.toString,
+            id: id,
+            name: name,
             unitPrice: unitPrice,
             bulkPrice: bulkPrice,
             inventory: inventory,
@@ -182,9 +182,10 @@ export class ManagementComponent {
           if (!id || !name || !unitPrice || !bulkPrice || !inventory || !numinPacket || !storeID) {
             Swal.showValidationMessage('All inputs are required!');
           }
+          console.log(productData);
           this.productService.addProduct(productData).subscribe(
             (response) => {
-              console.log('Product Added Successfully:', response);  
+              console.log('Product Added Successfully:', response, productData);  
               Swal.fire('Product successfully added!', '', 'success');
               this.productService.getProducts().subscribe(
                 (data) => {this.products = data;},

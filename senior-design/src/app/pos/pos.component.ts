@@ -57,7 +57,6 @@ export class PosComponent {
             if(this.checkoutItems[existingItemIndex].boughtInBulk == true){
               this.checkoutItems[existingItemIndex].price *= 2;
               this.checkoutItems[existingItemIndex].count++;
-
             }
             else{
               const newItem = new CheckoutItem(itemtext, itemID, bulkprice, true);
