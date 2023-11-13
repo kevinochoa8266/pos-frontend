@@ -26,6 +26,7 @@ export class ManagementComponent {
         console.error('Error fetching products:', error);
       }
     );
+    
   }
 
   // convertToDollars(pesoAmount: number): number {
@@ -35,7 +36,7 @@ export class ManagementComponent {
 
   //Users can favorite a product so that its image will appear on the 'Shop Candy' page
   // Function adds product details to an array of favorite products in the product service
-  addtoFavProduct(name: string, indivPrice: number, bulkPrice: number) {
+  addtoFavProduct(prodID: string, name: string, indivPrice: number, bulkPrice: number) {
     // this.imageService.getImage().subscribe(
     //     (data) => {
     //       this.images = data;
@@ -45,12 +46,15 @@ export class ManagementComponent {
     //     }
     //   );
     const newFav = {
+      id: prodID, 
       name: name,
       individualPrice: indivPrice,
       bulkPrice: bulkPrice,
       picUrl: 'assets/img/circlelogo.png'
     };
     this.productService.addfavProduct(newFav);
+    console.log(this.products);
+
   }
 
   async editProduct(){

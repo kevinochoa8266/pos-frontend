@@ -25,6 +25,7 @@ export class PosComponent {
     this.products = this.productService.getFavProducts();
     this.checkoutItems = this.productService.getCheckoutItems();
     this.total = this.productService.getTotal();
+    console.log('Products: ', this.products)
   }
 
   
@@ -40,6 +41,7 @@ export class PosComponent {
   //Adds Product to Checkout Item Array and updates pricing
   addtoCheckout(itemtext: string, itemID: string, itemprice: number, bulkprice: number, count: number) {
     //Have to update productservice total, count, and this.total
+    console.log(itemID, itemtext);
     if(itemprice > 0){
       Swal.fire({
         title: 'Do you want to buy Individual Product or in Bulk?',
@@ -51,10 +53,12 @@ export class PosComponent {
         if (result.isConfirmed) {
           //Bulk
           const existingItemIndex = this.checkoutItems.findIndex(item => item.id === itemID);
+          console.log("ExistingIndex", existingItemIndex, "   Item ID", itemID);
           if (existingItemIndex !== -1) {
             // Item with the same ID already exists, update its price
             console.log('exists');
             if(this.checkoutItems[existingItemIndex].boughtInBulk == true){
+              console.log(this.checkoutItems[existingItemIndex].name);
               this.checkoutItems[existingItemIndex].price *= 2;
               this.checkoutItems[existingItemIndex].count++;
             }
@@ -117,6 +121,7 @@ export class PosComponent {
             this.sidenav.open();
           }
     }
+    console.log(this.checkoutItems);
   }
 
   //Increments desired product and updates pricing
@@ -145,51 +150,51 @@ export class PosComponent {
   //Uses SweeAlert Popup
   async makePayment() {
     let userEmail: string = '';
-    Swal.fire({
-      title: "Would you like a receipt?",
-      showDenyButton: true,
-      showCancelButton: true,
-      confirmButtonText: "Yes",
-      denyButtonText: `No`
-    }).then(async(result) => {
-      /* Read more about isConfirmed, isDenied below */
-      if (result.isConfirmed || result.isDenied) {
-        if(result.isConfirmed){
-          const { value: email } = await Swal.fire({
-            title: "Input email address",
-            input: "email",
-            inputLabel: "Your email address",
-            inputPlaceholder: "Enter your email address"
-          });
-          if (email) {
-            Swal.fire(`Entered email: ${email}`);
-            userEmail = email as string;
-          }
-        }
-        console.log(userEmail);
 
-        const paymentData = {
-          orderTotal: this.total,
-          products: this.checkoutItems.map(item => ({
-            productId: item.id,
-            quantity: item.count,
-            price: item.price,
-            boughtInBulk: item.boughtInBulk
-          })),
-          // email: userEmail,
-          customerId: "cus_OwkAvKmcmctUfZ",
-          readerId:"tmr_FUNvywWDqIlIJo"
-        };
-      
+    Swal.fire({
+      title: "Do you want to submit this order?",
+      text: 'Total is: ' + this.total + '¢',
+      allowOutsideClick: false,
+      showDenyButton: true,
+      confirmButtonText: 'Yes',
+      denyButtonText: `Go back to checkout`,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
         Swal.fire({
-          title: 'Do you want to submit this order?',
-          text: 'Total is: ' + this.total + '¢',
-          allowOutsideClick: false,
+          title: "Would you like a receipt?",
           showDenyButton: true,
-          confirmButtonText: 'Yes',
-          denyButtonText: `Go back to checkout`,
-        }).then((result) => {
-          if (result.isConfirmed) {
+          showCancelButton: true,
+          confirmButtonText: "Yes",
+          denyButtonText: `No`
+        }).then(async (result) => {
+          if (result.isConfirmed || result.isDenied) {
+            if (result.isConfirmed) {
+              const { value: email } = await Swal.fire({
+                title: "Input email address",
+                input: "email",
+                inputLabel: "Your email address",
+                inputPlaceholder: "Enter your email address"
+              });
+              if (email) {
+                Swal.fire(`Entered email: ${email}`);
+                userEmail = email as string;
+              }
+            }
+            console.log(userEmail);
+
+            const paymentData = {
+              orderTotal: this.total,
+              products: this.checkoutItems.map(item => ({
+                productId: item.id,
+                quantity: item.count,
+                price: item.price,
+                boughtInBulk: item.boughtInBulk
+              })),
+              email: userEmail,
+              customerId: "cus_OwkAvKmcmctUfZ",
+              readerId: "tmr_FUNvywWDqIlIJo"
+            };
+
             Swal.fire({
               title: 'Processing payment',
               allowOutsideClick: false,
@@ -198,11 +203,10 @@ export class PosComponent {
                 Swal.showLoading();
               },
             });
-    
+
             this.paymentService.makePayment(paymentData).subscribe(
               (response) => {
-                //If payment is successful, clear checkout items, clear total, and close sidenav
-                console.log('Paymsent successful:', response);  
+                console.log('Payment successful:', response);
                 Swal.fire('Payment successful!', '', 'success');
                 this.checkoutItems = [];
                 this.total = 0;
@@ -212,19 +216,15 @@ export class PosComponent {
               },
               (error) => {
                 console.error('Error making payment:', error);
-                Swal.fire('Error making payment', '', 'error')
+                Swal.fire('Error making payment', '', 'error');
               }
-            ); 
-          } 
-        })
-      } 
-      else {
-        // Handle the case when the user clicks "Cancel" (outside click or close button)
+            );
+          }
+        });
+      } else {
         console.log('User canceled the action.');
       }
     });
-    
-
-    
   }
+
 }

@@ -20,7 +20,7 @@
                  Bulk Price: {{item.bulkPrice}}¢
             </div>
             <div class = "secondDiv">
-              <button class="button-16" (click) = "addtoFavProduct(item.name, +item.unitPrice, +item.bulkPrice)">Add to Favorites</button>   
+              <button class="button-16" (click) = "addtoFavProduct(item.id, item.name, +item.unitPrice, +item.bulkPrice)">Add to Favorites</button>   
               <br>
               <button  class="button-16" (click) = "editProduct()"role="button">Edit Product</button>
             </div>
