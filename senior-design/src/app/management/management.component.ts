@@ -57,38 +57,35 @@ export class ManagementComponent {
 
   }
 
-  async editProduct(){
+  async editProduct(product:Product){
     const { value: formValues } = await Swal.fire({
       title: 'Edit Product',
+      showCancelButton: true,
       allowOutsideClick: false,
       html:
-      '<label for="id-input">ID</label>' +
-      '<br>' +
-      '<input id="id-input" class="swal2-input">' + 
-      '<br>' +
+      
       '<label for="name-input">Name</label>' +
       '<br>' +
-      '<input id="name-input" class="swal2-input">' +
+      '<input id="name-input" class="swal2-input" placeholder="' + product.name + '">' +
       '<br>' +
       '<label for="unitprice-input">Unit Price</label>' +
       '<br>' +
-      '<input id="unitprice-input" class="swal2-input">' + 
+      '<input id="unitprice-input" class="swal2-input" placeholder="' + product.unitPrice + '">' + 
       '<br>' +
       '<label for="bulkprice-input">Edit Bulk Price</label>' +
       '<br>' +
-      '<input id="bulkprice-input" class="swal2-input">' +
+      '<input id="bulkprice-input" class="swal2-input" placeholder="' + product.bulkPrice + '">' +
       '<br>' +
       '<label for="inventory-input">Edit Inventory</label>' +
       '<br>' +
-      '<input id="inventory-input" class="swal2-input">' +
+      '<input id="inventory-input" class="swal2-input" placeholder="' + product.inventory + '">' +
       '<br>' +
       '<label for="num-input">Items in Packet</label>' +
       '<br>' +
-      '<input id="num-input" class="swal2-input">',
+      '<input id="num-input" class="swal2-input" placeholder="' + product.itemsInPacket + '">',
 
       focusConfirm: false,
       preConfirm: () => {
-          const id = (document.getElementById('id-input') as HTMLInputElement).value;
           const name = (document.getElementById('name-input') as HTMLInputElement).value;
           const unitPrice = parseFloat((document.getElementById('unitprice-input') as HTMLInputElement).value);
           const bulkPrice = parseFloat((document.getElementById('bulkprice-input') as HTMLInputElement).value);
@@ -97,7 +94,7 @@ export class ManagementComponent {
           const storeID = "tml_FTjdYgcKDFzOot";
 
           const productData = {
-            id: id,
+            id: product.id,
             name: name,
             unitPrice: unitPrice,
             bulkPrice: bulkPrice,
@@ -105,10 +102,10 @@ export class ManagementComponent {
             itemsInPacket: numinPacket,
             storeId: "tml_FTjdYgcKDFzOot"
           };
-          if (!id || !name || !unitPrice || !bulkPrice || !inventory || !numinPacket || !storeID) {
+          if (!name || !unitPrice || !bulkPrice || !inventory || !numinPacket || !storeID) {
             Swal.showValidationMessage('All inputs are required!');
           }
-          this.productService.addProduct(productData).subscribe(
+          this.productService.editProduct(productData).subscribe(
             (response) => {
               console.log('Product Edited Successfully:', response);  
               Swal.fire('Product successfully edited!', '', 'success');
@@ -132,6 +129,7 @@ export class ManagementComponent {
   async addProduct(){
     const { value: formValues } = await Swal.fire({
       title: 'Add Product',
+      showCancelButton: true,
       customClass: {
         container: 'custom-swal-content',
         closeButton: 'custom-deny'

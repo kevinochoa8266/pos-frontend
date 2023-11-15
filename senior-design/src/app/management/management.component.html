@@ -11,21 +11,21 @@
   <!-- Each product contains option to delete product, favorite product, and edit product -->
   <mat-grid-list cols="4" rowHeight="4:4" gutterSize="40px">
     <mat-grid-tile *ngFor="let item of products">
-        <div class = "parent">
-      <button class = "delete" (click) = "deleteProduct(item)" role="button"><mat-icon>delete_outline</mat-icon></button>
-            <div class = "Management">
-                <div class = "ItemName">{{item.name}} </div>
-                <mat-divider></mat-divider>
-                <div>Individual Price: {{item.unitPrice}}¢</div>
-                 Bulk Price: {{item.bulkPrice}}¢
-            </div>
-            <div class = "secondDiv">
-              <button class="button-16" (click) = "addtoFavProduct(item.id, item.name, +item.unitPrice, +item.bulkPrice)">Add to Favorites</button>   
-              <br>
-              <button  class="button-16" (click) = "editProduct()"role="button">Edit Product</button>
-            </div>
-          </div>
-      </mat-grid-tile>
+      <div class = "parent">
+        <button class = "delete" (click) = "deleteProduct(item)" role="button"><mat-icon>delete_outline</mat-icon></button>
+        <div class = "Management">
+            <div class = "ItemName">{{item.name}} </div>
+            <mat-divider></mat-divider>
+            <div>Individual Price: {{item.unitPrice}}¢</div>
+              Bulk Price: {{item.bulkPrice}}¢
+        </div>
+        <div class = "secondDiv">
+          <button class="button-16" (click) = "addtoFavProduct(item.id, item.name, +item.unitPrice, +item.bulkPrice)">Add to Favorites</button>   
+          <br>
+          <button  class="button-16" (click) = "editProduct(item)"role="button">Edit Product</button>
+        </div>
+      </div>
+    </mat-grid-tile>
 </mat-grid-list>
 
 </div>
