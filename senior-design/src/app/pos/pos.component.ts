@@ -16,6 +16,7 @@ export class PosComponent {
   total: number;
   isButtonEnabled: boolean = true;
   products: any[] = []; // Define an array to store the retrieved products
+  searchTerm: string = '';
   checkoutItems: CheckoutItem[] = []; //Array for Checkout Items
   @ViewChild('sidenav')
   sidenav!: MatSidenav;
@@ -32,6 +33,11 @@ export class PosComponent {
   ngOnInit(): void {
   }
   
+  get filteredProducts(): any[] {
+    return this.products.filter(product =>
+      product.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+  }
 
   // convertToDollars(pesoAmount: number): number {
   //   const exchangeRate = 0.056; // 1 peso = 0.05 dollars

@@ -12,6 +12,7 @@ import Swal from 'sweetalert2';
 export class ManagementComponent {
 
   products: Product[] = []; // Define an array to store the retrieved products
+  searchTerm: string = '';
   images: any[] = [];
 
   constructor(private productService: ProductService, private imageService: ImagesService) { }
@@ -27,6 +28,11 @@ export class ManagementComponent {
       }
     );
     
+  }
+  get filteredProducts(): any[] {
+    return this.products.filter(product =>
+      product.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
   }
 
   // convertToDollars(pesoAmount: number): number {

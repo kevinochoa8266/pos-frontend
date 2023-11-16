@@ -3,6 +3,12 @@
  <!-- Includes Title and Add Product Button -->
  <div class = "pos-top">
     <h1>Management Portal</h1>
+    <div class="search-container">
+      <mat-form-field appearance="fill">
+        <mat-icon matPrefix>search</mat-icon>
+        <input matInput type="text" [(ngModel)]="searchTerm" placeholder="Search for a product">
+      </mat-form-field>
+    </div>
     <button (click) = "addProduct()" mat-fab ><mat-icon>add</mat-icon></button>
   </div>
   <br>
@@ -10,7 +16,7 @@
   <!-- Grid List of Products -->
   <!-- Each product contains option to delete product, favorite product, and edit product -->
   <mat-grid-list cols="4" rowHeight="4:4" gutterSize="40px">
-    <mat-grid-tile *ngFor="let item of products">
+    <mat-grid-tile *ngFor="let item of filteredProducts">
       <div class = "parent">
         <button class = "delete" (click) = "deleteProduct(item)" role="button"><mat-icon>delete_outline</mat-icon></button>
         <div class = "Management">

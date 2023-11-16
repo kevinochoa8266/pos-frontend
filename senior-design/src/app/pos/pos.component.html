@@ -46,11 +46,18 @@
   <mat-sidenav-content>
     <div class = "pos-top">
       <h1>Welcome!</h1>
+      <!-- <input type="text" [(ngModel)]="searchTerm" placeholder="Search for a product" class="search-container"> -->
+      <div class="search-container">
+        <mat-form-field appearance="fill">
+          <mat-icon matPrefix>search</mat-icon>
+          <input matInput type="text" [(ngModel)]="searchTerm" placeholder="Search for a product">
+        </mat-form-field>
+      </div>
       <button (click) = "sidenav.toggle()" mat-fab ><mat-icon>shopping_cart</mat-icon></button>
     </div>
     <br>
     <mat-grid-list cols="4" rowHeight="5:6" gutterSize="40px">
-      <mat-grid-tile *ngFor="let item of products">
+      <mat-grid-tile *ngFor="let item of filteredProducts">
         <div class = "parent">
           <!-- Product Image -->
           <div class="base-content">
