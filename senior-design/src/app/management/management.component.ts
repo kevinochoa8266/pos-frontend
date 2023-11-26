@@ -42,24 +42,25 @@ export class ManagementComponent {
 
   //Users can favorite a product so that its image will appear on the 'Shop Candy' page
   // Function adds product details to an array of favorite products in the product service
-  addtoFavProduct(prodID: string, name: string, indivPrice: number, bulkPrice: number) {
-    // this.imageService.getImage().subscribe(
-    //     (data) => {
-    //       this.images = data;
-    //     },
-    //     (error) => {
-    //       console.error('Error fetching products:', error);
-    //     }
-    //   );
-    const newFav = {
-      id: prodID, 
-      name: name,
-      individualPrice: indivPrice,
-      bulkPrice: bulkPrice,
-      picUrl: 'assets/img/circlelogo.png'
-    };
-    this.productService.addfavProduct(newFav);
-    console.log(this.products);
+  async addtoFavProduct(prodID: string, name: string, indivPrice: number, bulkPrice: number) {
+    const { value: url } = await Swal.fire({
+      input: "url",
+      inputLabel: "URL address",
+      inputPlaceholder: "Enter the Image URL"
+    });
+    if (url) {
+      Swal.fire(`Entered URL: ${url}`);
+      const newFav = {
+        id: prodID, 
+        name: name,
+        individualPrice: indivPrice,
+        bulkPrice: bulkPrice,
+        picUrl: url,
+        // picUrl: 'assets/img/circlelogo.png'
+      };
+      this.productService.addfavProduct(newFav);
+      // console.log(this.products);
+    }
 
   }
 

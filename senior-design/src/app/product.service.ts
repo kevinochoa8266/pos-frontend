@@ -64,6 +64,7 @@ export class ProductService {
   private favproducts: favProduct[] = []; //Array for Favorited Products
   //Adds Product to List of favorite products displayed on 'Shop Candy' Page
   addfavProduct(product: favProduct) {
+    
     const existingItemIndex = this.favproducts.findIndex(item => item.name === product.name);
     if (existingItemIndex == -1) {
       this.favproducts.push(product);
