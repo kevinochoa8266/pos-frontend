@@ -42,7 +42,8 @@ export class ManagementComponent {
 
   //Users can favorite a product so that its image will appear on the 'Shop Candy' page
   // Function adds product details to an array of favorite products in the product service
-  async addtoFavProduct(prodID: string, name: string, indivPrice: number, bulkPrice: number) {
+  async addtoFavProduct(product: Product) {
+    //https://upload.wikimedia.org/wikipedia/commons/4/41/Sunflower_from_Silesia2.jpg
     const { value: url } = await Swal.fire({
       input: "url",
       inputLabel: "URL address",
@@ -51,10 +52,10 @@ export class ManagementComponent {
     if (url) {
       Swal.fire(`Entered URL: ${url}`);
       const newFav = {
-        id: prodID, 
-        name: name,
-        individualPrice: indivPrice,
-        bulkPrice: bulkPrice,
+        id: product.id, 
+        name: product.name,
+        individualPrice: product.unitPrice,
+        bulkPrice: product.bulkPrice,
         picUrl: url,
         // picUrl: 'assets/img/circlelogo.png'
       };
@@ -62,6 +63,10 @@ export class ManagementComponent {
       // console.log(this.products);
     }
 
+  }
+
+  removeFromFavProduct(item: Product){
+    
   }
 
   async editProduct(product:Product){
@@ -98,7 +103,7 @@ export class ManagementComponent {
           const bulkPrice = parseFloat((document.getElementById('bulkprice-input') as HTMLInputElement).value);
           const inventory = parseFloat((document.getElementById('inventory-input') as HTMLInputElement).value);
           const numinPacket = parseFloat((document.getElementById('num-input') as HTMLInputElement).value);
-          const storeID = "tml_FTjdYgcKDFzOot";
+          // const storeID = "tml_FTjdYgcKDFzOot";
 
           const productData = {
             id: product.id,
@@ -107,9 +112,9 @@ export class ManagementComponent {
             bulkPrice: bulkPrice,
             inventory: inventory,
             itemsInPacket: numinPacket,
-            storeId: "tml_FTjdYgcKDFzOot"
+            storeId: "tml_FWISdwhKuwag6x"
           };
-          if (!name || !unitPrice || !bulkPrice || !inventory || !numinPacket || !storeID) {
+          if (!name || !unitPrice || !bulkPrice || !inventory || !numinPacket ) {
             Swal.showValidationMessage('All inputs are required!');
           }
           this.productService.editProduct(productData).subscribe(
@@ -177,7 +182,7 @@ export class ManagementComponent {
           const bulkPrice = parseFloat((document.getElementById('bulkprice-input') as HTMLInputElement).value);
           const inventory = parseFloat((document.getElementById('inventory-input') as HTMLInputElement).value);
           const numinPacket = parseFloat((document.getElementById('num-input') as HTMLInputElement).value);
-          const storeID = "tml_FTjdYgcKDFzOot";
+          // const storeID = "tml_FTjdYgcKDFzOot";
 
           const productData = {
             id: id,
@@ -186,9 +191,9 @@ export class ManagementComponent {
             bulkPrice: bulkPrice,
             inventory: inventory,
             itemsInPacket: numinPacket,
-            storeId: "tml_FTjdYgcKDFzOot"
+            storeId: "tml_FWISdwhKuwag6x" 
           };
-          if (!id || !name || !unitPrice || !bulkPrice || !inventory || !numinPacket || !storeID) {
+          if (!id || !name || !unitPrice || !bulkPrice || !inventory || !numinPacket) {
             Swal.showValidationMessage('All inputs are required!');
           }
           console.log(productData);

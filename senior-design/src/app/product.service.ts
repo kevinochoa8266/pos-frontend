@@ -8,6 +8,7 @@ import { CheckoutItem } from './product.model';
 import Swal from 'sweetalert2';
 
 interface favProduct {
+  id: string;
   name: string;
   individualPrice: number;
   bulkPrice: number;
@@ -39,7 +40,7 @@ export class ProductService {
     const postProductURL = `${this.baseURL}/products`;
     return this.http.post(postProductURL, productData).pipe(
       catchError(error => {
-        console.error('Error adding product:', error);
+        // console.error('Error adding product:', error);
         return throwError(error);
       })
     );
@@ -77,6 +78,16 @@ export class ProductService {
       // Swal.close();
     }
   }
+  // removeFavProduct(favproduct: favProduct): void {
+  //   // Find the index of the product in the favProducts array
+  //   const index = this.favproducts.findIndex(product => product.id === favproduct.id);
+  //   if (index !== -1) {
+  //     // Remove the product from the array using splice
+  //     this.favproducts.splice(index, 1);
+  //     // You might also want to update the backend or perform any necessary actions here
+  //   }
+  // }
+
 
   //Gets Favorite Products to display on 'Shop Candy' page
   getFavProducts() {
