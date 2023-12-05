@@ -33,20 +33,15 @@ export class PosComponent {
   ngOnInit(): void {
   }
   
+  //For search bar, returns filtered search
   get filteredProducts(): any[] {
     return this.products.filter(product =>
       product.name.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
   }
 
-  // convertToDollars(pesoAmount: number): number {
-  //   const exchangeRate = 0.056; // 1 peso = 0.05 dollars
-  //   return pesoAmount * exchangeRate;
-  // }
-
   //Adds Product to Checkout Item Array and updates pricing
   addtoCheckout(itemtext: string, itemID: string, itemprice: number, bulkprice: number, count: number) {
-    //Have to update productservice total, count, and this.total
     console.log(itemID, itemtext);
     if(itemprice > 0){
       Swal.fire({
@@ -57,12 +52,11 @@ export class PosComponent {
         denyButtonText: `Individual`,
       }).then((result) => {
         if (result.isConfirmed) {
-          //Bulk
+          //Bulk is chosen
           const existingItemIndex = this.checkoutItems.findIndex(item => item.id === itemID);
           console.log("ExistingIndex", existingItemIndex, "   Item ID", itemID);
+          // Item with the same ID already exists, update its price
           if (existingItemIndex !== -1) {
-            // Item with the same ID already exists, update its price
-            console.log('exists');
             if(this.checkoutItems[existingItemIndex].boughtInBulk == true){
               console.log(this.checkoutItems[existingItemIndex].name);
               this.checkoutItems[existingItemIndex].price *= 2;
@@ -70,21 +64,27 @@ export class PosComponent {
             }
             else{
               const newItem = new CheckoutItem(itemtext, itemID, bulkprice, true);
+              // this.checkoutItems.push(newItem);
+              console.log("pushed here 3");
               this.productService.addCheckoutItem(newItem);
               this.productService.updateTotal(bulkprice);
               this.total = this.total + bulkprice;
             } 
           } 
+          //New Checkout Item
+          // Item with the same ID does not exist, add a new item to the list
           else {
-            console.log('dne');
-            // Item with the same ID does not exist, add a new item to the list
+
             const newItem = new CheckoutItem(itemtext, itemID, bulkprice, true);
+            console.log("pushed here 4");
+            // this.checkoutItems.push(newItem);
             this.productService.addCheckoutItem(newItem);
             this.productService.updateTotal(bulkprice);
             this.total = this.total + bulkprice;
           } 
           this.sidenav.open();
         }
+        //Individual is chosen
         else{
           const existingItemIndex = this.checkoutItems.findIndex(item => item.id === itemID);
           if (existingItemIndex !== -1) {
@@ -94,14 +94,18 @@ export class PosComponent {
               this.checkoutItems[existingItemIndex].count++;
             }
             else{
+              console.log("pushed here 2");
               const newItem = new CheckoutItem(itemtext, itemID, itemprice, false);
+              // this.checkoutItems.push(newItem);
               this.productService.addCheckoutItem(newItem);
               this.productService.updateTotal(itemprice);
               this.total = this.total + itemprice;
             } 
           } 
           else{
+            console.log("pushed here 1");
             const newItem = new CheckoutItem(itemtext, itemID, itemprice, false);
+            // this.checkoutItems.push(newItem);
             this.productService.addCheckoutItem(newItem);
             this.productService.updateTotal(itemprice);
             this.total = this.total + itemprice;
@@ -121,6 +125,7 @@ export class PosComponent {
           } 
           else{
             const newItem = new CheckoutItem(itemtext, itemID, bulkprice, true);
+            // this.checkoutItems.push(newItem);
             this.productService.addCheckoutItem(newItem);
             this.productService.updateTotal(bulkprice);
             this.total = this.total + bulkprice;

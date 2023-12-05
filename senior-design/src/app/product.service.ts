@@ -53,6 +53,7 @@ export class ProductService {
     return this.http.delete(deleteProductURL, { body: product });
   }
 
+  //Edits Existing Product
   editProduct(productData: any): Observable<any> {
     const editProductURL = `${this.baseURL}/products`;
     console.log("From service: ", productData);
@@ -60,34 +61,18 @@ export class ProductService {
   }
 
 
-
-
   private favproducts: favProduct[] = []; //Array for Favorited Products
   //Adds Product to List of favorite products displayed on 'Shop Candy' Page
   addfavProduct(product: favProduct) {
-    
     const existingItemIndex = this.favproducts.findIndex(item => item.name === product.name);
     if (existingItemIndex == -1) {
       this.favproducts.push(product);
-      // Swal.fire()
       Swal.fire(`${product.name} added to favorites`);
-      // Swal.close();
     }
     else{
       Swal.fire("Product is already a favorite");
-      // Swal.close();
     }
   }
-  // removeFavProduct(favproduct: favProduct): void {
-  //   // Find the index of the product in the favProducts array
-  //   const index = this.favproducts.findIndex(product => product.id === favproduct.id);
-  //   if (index !== -1) {
-  //     // Remove the product from the array using splice
-  //     this.favproducts.splice(index, 1);
-  //     // You might also want to update the backend or perform any necessary actions here
-  //   }
-  // }
-
 
   //Gets Favorite Products to display on 'Shop Candy' page
   getFavProducts() {
@@ -100,10 +85,6 @@ export class ProductService {
   //Adds CheckoutItem to checkout side navigation bar
   addCheckoutItem(item: CheckoutItem) {
     this.checkoutItems.push(item);
-  }
-
-  editCheckoutItem(item: CheckoutItem){
-    
   }
 
   clearCheckoutItems(){

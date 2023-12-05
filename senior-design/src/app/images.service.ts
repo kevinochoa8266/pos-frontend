@@ -8,6 +8,8 @@ import { throwError } from 'rxjs';
   providedIn: 'root'
 })
 
+//Used for favorites with images
+//Not implemented
 export class ImagesService {
   private baseURL = 'http://localhost:8080'; // Replace with your API endpoint
   constructor(private http: HttpClient) { }

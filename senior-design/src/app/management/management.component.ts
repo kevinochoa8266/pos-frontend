@@ -26,19 +26,17 @@ export class ManagementComponent {
       (error) => {
         console.error('Error fetching products:', error);
       }
-    );
-    
+    ); 
   }
+
+  //For search bar, returns filtered search
   get filteredProducts(): any[] {
     return this.products.filter(product =>
       product.name.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
   }
 
-  // convertToDollars(pesoAmount: number): number {
-  //   const exchangeRate = 0.056; // 1 peso = 0.05 dollars
-  //   return pesoAmount * exchangeRate;
-  // }
+  file: File | null = null;
 
   //Users can favorite a product so that its image will appear on the 'Shop Candy' page
   // Function adds product details to an array of favorite products in the product service
@@ -62,13 +60,10 @@ export class ManagementComponent {
       this.productService.addfavProduct(newFav);
       // console.log(this.products);
     }
-
   }
 
-  removeFromFavProduct(item: Product){
-    
-  }
-
+  //Edit information for an existing product, calls editProduct API CALL
+  //Uses SweetAlert popup
   async editProduct(product:Product){
     const { value: formValues } = await Swal.fire({
       title: 'Edit Product',
@@ -107,11 +102,11 @@ export class ManagementComponent {
 
           const productData = {
             id: product.id,
-            name: name,
-            unitPrice: unitPrice,
-            bulkPrice: bulkPrice,
-            inventory: inventory,
-            itemsInPacket: numinPacket,
+            name: name || product.name,
+            unitPrice: unitPrice || product.unitPrice,
+            bulkPrice: bulkPrice || product.bulkPrice,
+            inventory: inventory || product.inventory,
+            itemsInPacket: numinPacket || product.itemsInPacket,
             storeId: "tml_FWISdwhKuwag6x"
           };
           if (!name || !unitPrice || !bulkPrice || !inventory || !numinPacket ) {
@@ -182,7 +177,6 @@ export class ManagementComponent {
           const bulkPrice = parseFloat((document.getElementById('bulkprice-input') as HTMLInputElement).value);
           const inventory = parseFloat((document.getElementById('inventory-input') as HTMLInputElement).value);
           const numinPacket = parseFloat((document.getElementById('num-input') as HTMLInputElement).value);
-          // const storeID = "tml_FTjdYgcKDFzOot";
 
           const productData = {
             id: id,
@@ -209,7 +203,6 @@ export class ManagementComponent {
               Swal.fire('Error adding product', '', 'error')
             }
           ); 
-          // return [id, name, unitPrice, bulkPrice, inventory, numinPacket, storeID];   
       }
     })
   }
@@ -258,27 +251,5 @@ export class ManagementComponent {
       }
     })
   }
-  
-  //POST Image
-  // uploadImage(event: any) {
-  //   const file: File = event.target.files[0];
-  //   if (file) {
-  //     this.imageService.postImage(file).subscribe(
-  //       response => {
-  //         console.log('Image uploaded successfully!', response);
-  //       },
-  //       error => {
-  //         console.error('Error uploading image:', error);
-  //       }
-  //     );
-  //   }
-  // }
-
-
 }
-
-//ADD PRODUCT TO WORK?
-//STOREID IS A INT ON ADD PRODUCT BUT NOT ON GET PRODUCT
-//favorite button
-
 

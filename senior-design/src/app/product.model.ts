@@ -17,7 +17,6 @@ export class Product {
     this.itemsInPacket = itemsInPacket;
     this.storeId = storeId;
   }
-
 }
 
 export class CheckoutItem {

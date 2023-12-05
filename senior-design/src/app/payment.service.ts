@@ -9,7 +9,6 @@ import { Observable } from 'rxjs';
 //Class to make payments
 export class PaymentService {
   private paymentURL = 'http://localhost:8080/payments';
-
   constructor(private http: HttpClient) { }
   
   //Make Payment API Call
