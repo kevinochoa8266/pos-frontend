@@ -22,16 +22,20 @@ export class Product {
 export class CheckoutItem {
     name: string;
     id: string;
-    price: number;
+    currPrice: number;
+    ogPrice: number;
     count: number;
     boughtInBulk: boolean;
+    itemsInPacket: number;
   
-    constructor(name: string, id: string, price: number, bulk: boolean) {
+    constructor(name: string, id: string, currPrice: number, ogPrice: number, bulk: boolean,  itemsInPacket: number) {
       this.name = name;
       this.id = id;
-      this.price = price;
+      this.currPrice = currPrice;
+      this.ogPrice = ogPrice;
       this.count = 1;
       this.boughtInBulk = bulk;  
+      this.itemsInPacket = itemsInPacket;
     }
   }
   

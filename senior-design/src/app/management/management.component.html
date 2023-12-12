@@ -22,11 +22,15 @@
         <div class = "Management">
             <div class = "ItemName">{{item.name}} </div>
             <mat-divider></mat-divider>
+            <div class = "outofstock" *ngIf="0 > item.inventory"id = "prices">OUT OF STOCK</div>
             <div>Individual Price: {{item.unitPrice}}¢</div>
-              Bulk Price: {{item.bulkPrice}}¢
+            <div>Bulk Price: {{item.bulkPrice}}¢</div>
+            Inventory: {{item.inventory}}
+              
         </div>
+        
         <div class = "secondDiv">
-          <button class="button-16" (click) = "addtoFavProduct(item)">Add to Favorites</button>   
+          <button *ngIf="item.inventory > 0" class="button-16" (click) = "addtoFavProduct(item)">Add to Favorites</button>   
           <!--  *ngIf="!item.favProduct"  -->
           <!-- <button *ngIf="item.favProduct" class="button-16" (click)="removeFromFavProduct(item)">Remove from Favorites</button> -->
           <br>

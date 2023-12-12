@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CheckoutItem } from '../product.model';
+import { Product } from '../product.model';
 import { ProductService } from '../product.service';
 import { PaymentService } from '../payment.service';
 import Swal from 'sweetalert2';
 import { MatSidenav } from '@angular/material/sidenav';
+import {favProduct} from '../product.service'
 
 @Component({
   selector: 'app-pos',
@@ -31,6 +33,7 @@ export class PosComponent {
 
   
   ngOnInit(): void {
+    this.checkoutItems = this.productService.getCheckoutItems();
   }
   
   //For search bar, returns filtered search
@@ -41,9 +44,9 @@ export class PosComponent {
   }
 
   //Adds Product to Checkout Item Array and updates pricing
-  addtoCheckout(itemtext: string, itemID: string, itemprice: number, bulkprice: number, count: number) {
-    console.log(itemID, itemtext);
-    if(itemprice > 0){
+  addtoCheckout(prodItem: favProduct) {
+    // console.log(itemID, itemtext);
+    if(prodItem.individualPrice > 0){
       Swal.fire({
         title: 'Do you want to buy Individual Product or in Bulk?',
         allowOutsideClick: false,
@@ -53,62 +56,66 @@ export class PosComponent {
       }).then((result) => {
         if (result.isConfirmed) {
           //Bulk is chosen
-          const existingItemIndex = this.checkoutItems.findIndex(item => item.id === itemID);
-          console.log("ExistingIndex", existingItemIndex, "   Item ID", itemID);
+          const existingItemIndex = this.checkoutItems.findIndex(item => item.id === prodItem.id);
+          console.log("ExistingIndex", existingItemIndex, "   Item ID", prodItem.id);
           // Item with the same ID already exists, update its price
           if (existingItemIndex !== -1) {
             if(this.checkoutItems[existingItemIndex].boughtInBulk == true){
               console.log(this.checkoutItems[existingItemIndex].name);
-              this.checkoutItems[existingItemIndex].price *= 2;
+              this.checkoutItems[existingItemIndex].currPrice += this.checkoutItems[existingItemIndex].ogPrice;
+              this.productService.updateTotal(this.checkoutItems[existingItemIndex].ogPrice);
+              this.total = this.total + this.checkoutItems[existingItemIndex].ogPrice;
               this.checkoutItems[existingItemIndex].count++;
             }
             else{
-              const newItem = new CheckoutItem(itemtext, itemID, bulkprice, true);
+              const newItem = new CheckoutItem(prodItem.name, prodItem.id, prodItem.bulkPrice, prodItem.bulkPrice, true, prodItem.inventory);
               // this.checkoutItems.push(newItem);
               console.log("pushed here 3");
               this.productService.addCheckoutItem(newItem);
-              this.productService.updateTotal(bulkprice);
-              this.total = this.total + bulkprice;
+              this.productService.updateTotal(prodItem.bulkPrice);
+              this.total = this.total + prodItem.bulkPrice;
             } 
           } 
           //New Checkout Item
           // Item with the same ID does not exist, add a new item to the list
           else {
 
-            const newItem = new CheckoutItem(itemtext, itemID, bulkprice, true);
+            const newItem = new CheckoutItem(prodItem.name, prodItem.id, prodItem.bulkPrice, prodItem.bulkPrice, true, prodItem.inventory);
             console.log("pushed here 4");
             // this.checkoutItems.push(newItem);
             this.productService.addCheckoutItem(newItem);
-            this.productService.updateTotal(bulkprice);
-            this.total = this.total + bulkprice;
+            this.productService.updateTotal(prodItem.bulkPrice);
+            this.total = this.total + prodItem.bulkPrice;
           } 
           this.sidenav.open();
         }
         //Individual is chosen
         else{
-          const existingItemIndex = this.checkoutItems.findIndex(item => item.id === itemID);
+          const existingItemIndex = this.checkoutItems.findIndex(item => item.id === prodItem.id);
           if (existingItemIndex !== -1) {
             // Item with the same ID already exists, update its price
             if(this.checkoutItems[existingItemIndex].boughtInBulk == false){
-              this.checkoutItems[existingItemIndex].price *= 2;
+              this.checkoutItems[existingItemIndex].currPrice += this.checkoutItems[existingItemIndex].ogPrice;
               this.checkoutItems[existingItemIndex].count++;
+              this.productService.updateTotal(this.checkoutItems[existingItemIndex].ogPrice);
+              this.total = this.total + this.checkoutItems[existingItemIndex].ogPrice;
             }
             else{
               console.log("pushed here 2");
-              const newItem = new CheckoutItem(itemtext, itemID, itemprice, false);
+              const newItem = new CheckoutItem(prodItem.name, prodItem.id, prodItem.individualPrice, prodItem.individualPrice, false, prodItem.inventory);
               // this.checkoutItems.push(newItem);
               this.productService.addCheckoutItem(newItem);
-              this.productService.updateTotal(itemprice);
-              this.total = this.total + itemprice;
+              this.productService.updateTotal(prodItem.individualPrice);
+              this.total = this.total + prodItem.individualPrice;
             } 
           } 
           else{
             console.log("pushed here 1");
-            const newItem = new CheckoutItem(itemtext, itemID, itemprice, false);
+            const newItem = new CheckoutItem(prodItem.name, prodItem.id, prodItem.individualPrice, prodItem.individualPrice, false, prodItem.inventory);
             // this.checkoutItems.push(newItem);
             this.productService.addCheckoutItem(newItem);
-            this.productService.updateTotal(itemprice);
-            this.total = this.total + itemprice;
+            this.productService.updateTotal(prodItem.individualPrice);
+            this.total = this.total + prodItem.individualPrice;
           }
           
           this.sidenav.open();
@@ -116,19 +123,21 @@ export class PosComponent {
       })
     }
     else{
-      const existingItemIndex = this.checkoutItems.findIndex(item => item.id === itemID);
+      const existingItemIndex = this.checkoutItems.findIndex(item => item.id === prodItem.id);
           if (existingItemIndex !== -1) {
             // Item with the same ID already exists, update its price
             console.log('exists');
-            this.checkoutItems[existingItemIndex].price *= 2;
+            this.checkoutItems[existingItemIndex].currPrice += this.checkoutItems[existingItemIndex].ogPrice;
             this.checkoutItems[existingItemIndex].count++;
+            this.productService.updateTotal(this.checkoutItems[existingItemIndex].ogPrice);
+            this.total = this.total + this.checkoutItems[existingItemIndex].ogPrice;
           } 
           else{
-            const newItem = new CheckoutItem(itemtext, itemID, bulkprice, true);
+            const newItem = new CheckoutItem(prodItem.name, prodItem.id, prodItem.bulkPrice, prodItem.bulkPrice, true, prodItem.inventory);
             // this.checkoutItems.push(newItem);
             this.productService.addCheckoutItem(newItem);
-            this.productService.updateTotal(bulkprice);
-            this.total = this.total + bulkprice;
+            this.productService.updateTotal(prodItem.bulkPrice);
+            this.total = this.total + prodItem.bulkPrice;
             this.sidenav.open();
           }
     }
@@ -138,22 +147,36 @@ export class PosComponent {
   //Increments desired product and updates pricing
   plusCount(item: CheckoutItem){
     item.count++;
-    this.total = this.total + item.price;
-    this.productService.updateTotal(item.price);
-    item.price *=2;
+    this.total = this.total + item.ogPrice;
+    this.productService.updateTotal(item.ogPrice);
+    item.currPrice += item.ogPrice;
   }
 
   //Decrements desired product and updates pricing
-  minusCount(item: CheckoutItem){
+  async minusCount(item: CheckoutItem){
     item.count--;
     const index = this.checkoutItems.indexOf(item);
 
     if(item.count == 0 && index != -1){
-      this.checkoutItems.splice(index, 1);
+      await Swal.fire({
+        title: 'Are you sure you want to remove this product from checkout?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.checkoutItems.splice(index, 1);
+          item.currPrice -= item.ogPrice;
+          this.total = this.total - item.ogPrice;
+          this.productService.updateTotal(item.ogPrice* -1);
+        }
+      })
     }
-    this.total = this.total - item.price;
-    this.productService.updateTotal(item.price* -1);
-    item.price /=2;
+    else{
+      item.currPrice -= item.ogPrice;
+      this.total = this.total - item.ogPrice;
+      this.productService.updateTotal(item.ogPrice* -1);
+    }
   }
   
 
@@ -198,11 +221,10 @@ export class PosComponent {
               products: this.checkoutItems.map(item => ({
                 productId: item.id,
                 quantity: item.count,
-                price: item.price,
+                price: item.currPrice,
                 boughtInBulk: item.boughtInBulk
               })),
               email: userEmail,
-              customerId: "cus_OwkAvKmcmctUfZ",
               readerId: "tmr_FUNvywWDqIlIJo"
             };
 
@@ -219,7 +241,7 @@ export class PosComponent {
               (response) => {
                 console.log('Payment successful:', response);
                 Swal.fire('Payment successful!', '', 'success');
-                this.checkoutItems = [];
+                // this.checkoutItems = [];
                 this.total = 0;
                 this.productService.clearCheckoutItems();
                 this.productService.updateTotal(this.productService.getTotal() * -1);

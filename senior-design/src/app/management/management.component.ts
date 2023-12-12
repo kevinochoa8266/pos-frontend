@@ -54,6 +54,8 @@ export class ManagementComponent {
         name: product.name,
         individualPrice: product.unitPrice,
         bulkPrice: product.bulkPrice,
+        inventory: product.inventory,
+        itemsInPacket: product.itemsInPacket,
         picUrl: url,
         // picUrl: 'assets/img/circlelogo.png'
       };
@@ -107,7 +109,8 @@ export class ManagementComponent {
             bulkPrice: bulkPrice || product.bulkPrice,
             inventory: inventory || product.inventory,
             itemsInPacket: numinPacket || product.itemsInPacket,
-            storeId: "tml_FWISdwhKuwag6x"
+            storeId: "tml_FXRMpwbVOj0gvP"
+            
           };
           if (!name || !unitPrice || !bulkPrice || !inventory || !numinPacket ) {
             Swal.showValidationMessage('All inputs are required!');
@@ -185,7 +188,8 @@ export class ManagementComponent {
             bulkPrice: bulkPrice,
             inventory: inventory,
             itemsInPacket: numinPacket,
-            storeId: "tml_FWISdwhKuwag6x" 
+            // storeId: "tml_FWISdwhKuwag6x" 
+            storeId: "tml_FXRMpwbVOj0gvP"
           };
           if (!id || !name || !unitPrice || !bulkPrice || !inventory || !numinPacket) {
             Swal.showValidationMessage('All inputs are required!');

@@ -7,12 +7,14 @@ import { Product } from './product.model';
 import { CheckoutItem } from './product.model';
 import Swal from 'sweetalert2';
 
-interface favProduct {
+export interface favProduct {
   id: string;
   name: string;
   individualPrice: number;
   bulkPrice: number;
   picUrl: string;
+  inventory: number;
+  itemsInPacket: number;
 }
 
 @Injectable({

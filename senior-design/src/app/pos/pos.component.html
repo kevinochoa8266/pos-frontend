@@ -4,11 +4,13 @@
   <!-- CHECKOUT SIDENAV -->
   <!-- Contains side navigation bar with list of checkout items, the total amount, option to continue to payment -->
   <mat-sidenav #sidenav mode = "side" [(opened)]="opened" position = "end">
-    <mat-grid-list cols="1" rowHeight="3:2" gutterSize="20px">
+    <mat-grid-list cols="1" rowHeight="1:1" gutterSize="20px">
       <mat-grid-tile *ngFor="let item of checkoutItems" id = "checkoutTile">
         <div class = "parent">
           <div class="main-content">{{item.name}}</div>
-          <div class = "secondDiv">{{item.price}}¢</div>
+          <div class = "secondDiv" *ngIf="item.boughtInBulk">Bulk | {{item.itemsInPacket}} items/packet</div>
+          <div class = "secondDiv">{{item.currPrice}}¢</div>
+          <div class = "secondDiv" *ngIf="!item.boughtInBulk">Individual</div>
         </div>
 
         <!-- Each checkout item contains a footer that has options to increment and 
@@ -69,8 +71,9 @@
                 <div id = "name">{{item.name}} </div>
                 <div *ngIf="item.individualPrice > 0"id = "prices">Individual Price: {{item.individualPrice}}¢</div>
                 <div id = "prices">Bulk Price: {{item.bulkPrice}}¢</div>
+                <!-- <div id = "prices">Inventory: {{item.inventory}}</div> -->
                 <br>
-                <button  id = "checkoutBtn" [disabled]="!isButtonEnabled" (click) = "addtoCheckout(item.name, item.id, +item.individualPrice, +item.bulkPrice, +1)" mat-mini-fab color="blue">
+                <button  id = "checkoutBtn" [disabled]="!isButtonEnabled" (click) = "addtoCheckout(item)" mat-mini-fab color="blue">
                   <mat-icon>add_shopping_cart</mat-icon>
                 </button>
             </div>
