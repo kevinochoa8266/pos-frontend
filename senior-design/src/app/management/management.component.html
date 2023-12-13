@@ -22,7 +22,7 @@
         <div class = "Management">
             <div class = "ItemName">{{item.name}} </div>
             <mat-divider></mat-divider>
-            <div class = "outofstock" *ngIf="0 > item.inventory"id = "prices">OUT OF STOCK</div>
+            <div class = "outofstock" *ngIf="0 >= item.inventory"id = "prices">OUT OF STOCK</div>
             <div>Individual Price: {{item.unitPrice}}¢</div>
             <div>Bulk Price: {{item.bulkPrice}}¢</div>
             Inventory: {{item.inventory}}
